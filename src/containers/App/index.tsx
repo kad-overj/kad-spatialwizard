@@ -2,7 +2,7 @@ import React from "react";
 import Wizard from "containers/Wizard";
 import { AppBar, Toolbar, Typography, Container, Paper } from "@material-ui/core";
 import LDWizardImg from "!raw-loader!./LDWizard.svg";
-import NDEImg from "./ndelogo.png";
+//import NDEImg from "./ndelogo.png";
 import * as styles from "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 require("../../theme/global.scss");
@@ -12,11 +12,11 @@ const App: React.FC<Props> = () => {
     <div className={styles.app}>
       <AppBar position="static" color="default">
         <Toolbar>
-          <img src={NDEImg} className={styles.image} />
-          <Typography>LD-Wizard demo</Typography>
+          <img className={styles.image} />
+          <Typography>Spatial Wizard</Typography>
           <div className={styles.homeContainer}>
             <a className={styles.home} href="1">
-              home
+              <FontAwesomeIcon icon="home" />
             </a>
           </div>
         </Toolbar>
@@ -37,9 +37,15 @@ const App: React.FC<Props> = () => {
             <FontAwesomeIcon icon={["fab", "github"]} /> Github
           </a>
         </nav>
-        <div className={styles.LDWizardImg} dangerouslySetInnerHTML={{ __html: LDWizardImg }} />
       </Paper>
     </div>
   );
 };
 export default App;
+
+/*
+
+
+<div className={styles.LDWizardImg} dangerouslySetInnerHTML={{ __html: LDWizardImg }} />
+
+*/
