@@ -1,6 +1,16 @@
-button.mainButton {
+@import "../../theme/vars.scss";
+
+button.mainButton,
+button.mainButton:hover {
   min-width: 200px;
+  background-color: $pallette-primary;
 }
+
+button.popperButton,
+button.popperButton:hover {
+  background-color: $pallette-primary;
+}
+
 .popper {
   min-width: 200px;
 }

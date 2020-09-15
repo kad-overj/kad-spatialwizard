@@ -1,3 +1,5 @@
+@import "../../theme/vars.scss";
+
 .segment {
   margin: 2rem 0;
 }
@@ -50,4 +52,9 @@ button.actionButtons {
 }
 .processAlert {
   margin-bottom: 1rem;
+}
+
+span.downloadButton,
+span.downloadButton:hover {
+  background-color: $pallette-primary;
 }
