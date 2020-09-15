@@ -48,10 +48,15 @@ a {
 .home {
   color: $pallette-primary;
   text-decoration: none;
-  font-size: 40px;
+  font-size: 20px;
 }
 
 .homeContainer {
   width: 90%;
   text-align: right;
+}
+
+.appBarLine {
+  height: 3px;
+  background-color: $pallette-secondary;
 }

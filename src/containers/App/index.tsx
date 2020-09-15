@@ -16,10 +16,11 @@ const App: React.FC<Props> = () => {
           <Typography>Spatial Wizard</Typography>
           <div className={styles.homeContainer}>
             <a className={styles.home} href="1">
-              <FontAwesomeIcon icon="home" />
+              <FontAwesomeIcon icon="home" /> Home
             </a>
           </div>
         </Toolbar>
+        <div className={styles.appBarLine}></div>
       </AppBar>
       <Container component="main" className={styles.main}>
         <Wizard />
