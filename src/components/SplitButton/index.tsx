@@ -25,7 +25,7 @@ const SplitButton: React.FC<Props> = ({ actions, onActionSelected, getButtonlabe
         >
           {getButtonlabel ? getButtonlabel(selectedAction) : selectedAction}
         </Button>
-        <Button size="small" onClick={() => setOpen(true)}>
+        <Button className={styles.popperButton} onClick={() => setOpen(true)}>
           <FontAwesomeIcon icon="caret-down" />
         </Button>
       </ButtonGroup>

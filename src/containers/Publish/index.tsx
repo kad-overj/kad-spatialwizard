@@ -138,6 +138,7 @@ const Publish: React.FC<Props> = ({}) => {
                   </CardContent>
                   <CardActions>
                     <Button
+                      className={styles.downloadButton}
                       onClick={() => downloadFile(source, "source.csv", "text/csv")}
                       component="span"
                       variant="contained"
@@ -155,6 +156,7 @@ const Publish: React.FC<Props> = ({}) => {
                   </CardContent>
                   <CardActions>
                     <Button
+                      className={styles.downloadButton}
                       onClick={() => downloadFile(transformationResult, "result.nt", "application/n-triples")}
                       component="span"
                       variant="contained"
@@ -209,6 +211,9 @@ const Publish: React.FC<Props> = ({}) => {
         </Button>
         <Button className={styles.actionButtons} variant="contained" color="primary" disabled>
           Next
+        </Button>
+        <Button className={styles.actionButtons} color="secondary" onClick={() => history.push("/${Step - 2}")}>
+          Home
         </Button>
       </Box>
       <a style={{ visibility: "hidden" }} ref={downloadRef} />
