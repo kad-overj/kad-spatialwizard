@@ -6,6 +6,8 @@ import Papa from "papaparse";
 import { useHistory } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { sourceState, matrixState, transformationConfigState } from "state";
+import classNames from "classnames";
+
 interface Props {}
 export const Step = 1;
 const parseCSV: (File: File) => Promise<Papa.ParseResult<string[]>> = (file) => {
@@ -23,6 +25,8 @@ const parseCSV: (File: File) => Promise<Papa.ParseResult<string[]>> = (file) => 
   });
 };
 const Upload: React.FC<Props> = ({}) => {
+  const btnClass = classNames(styles.actionButtons, styles.btnNext);
+
   const history = useHistory();
 
   const [error, setError] = React.useState<string>();
@@ -76,7 +80,12 @@ const Upload: React.FC<Props> = ({}) => {
         </Typography>
         <input id="csv-upload" type="file" className={styles.input} onChange={handleNewFile} accept="text/csv" />
         <label htmlFor="csv-upload">
-          <Button component="span" variant="contained" startIcon={<FontAwesomeIcon icon="upload" />}>
+          <Button
+            className={styles.uploadButton}
+            component="span"
+            variant="contained"
+            startIcon={<FontAwesomeIcon icon="upload" />}
+          >
             Load your CSV File
           </Button>
           {error && <Typography color="error">No file selected</Typography>}
@@ -87,7 +96,7 @@ const Upload: React.FC<Props> = ({}) => {
           Back
         </Button>
         <Button
-          className={styles.actionButtons}
+          className={btnClass}
           variant="contained"
           color="primary"
           disabled={!parsedSource}
