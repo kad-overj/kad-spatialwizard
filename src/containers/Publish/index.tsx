@@ -128,17 +128,12 @@ const Publish: React.FC<Props> = ({}) => {
             <CardContent className={styles.downloadContent}>
               <Container className={styles.downloadContainer}>
                 <Card variant="outlined" className={styles.downloadSegment}>
-                  <CardHeader
-                    title="Download CSV
-"
-                    avatar={<FontAwesomeIcon icon={["fas", "file-csv"]} />}
-                  />
+                  <CardHeader title="Download CSV" avatar={<FontAwesomeIcon icon={["fas", "file-csv"]} />} />
                   <CardContent className={styles.downloadContent}>
                     Download your tabular source data as standardized CSV.{" "}
                   </CardContent>
                   <CardActions>
                     <Button
-                      className={styles.downloadButton}
                       onClick={() => downloadFile(source, "source.csv", "text/csv")}
                       component="span"
                       variant="contained"
@@ -156,7 +151,6 @@ const Publish: React.FC<Props> = ({}) => {
                   </CardContent>
                   <CardActions>
                     <Button
-                      className={styles.downloadButton}
                       onClick={() => downloadFile(transformationResult, "result.nt", "application/n-triples")}
                       component="span"
                       variant="contained"

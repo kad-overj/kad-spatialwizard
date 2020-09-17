@@ -25,13 +25,11 @@ import TableHeaders from "./InteractiveTableHeaders";
 import ResourceClassField from "./ClassField";
 import { Skeleton } from "@material-ui/lab";
 import ColumnSelector from "./ColumnSelector";
-import classNames from "classnames";
 interface Props {}
 
 export const Step = 2;
 
 const Configure: React.FC<Props> = ({}) => {
-  const btnClass = classNames(styles.actionButtons, styles.btnNext);
   const parsedCsv = useRecoilValue(matrixState);
   const history = useHistory();
   const confirmConfiguration = () => {
@@ -92,7 +90,7 @@ const Configure: React.FC<Props> = ({}) => {
         <Button className={styles.actionButtons} onClick={() => history.push(`/${Step - 1}`)}>
           Back
         </Button>
-        <Button className={btnClass} variant="contained" color="primary" onClick={confirmConfiguration}>
+        <Button className={styles.actionButtons} variant="contained" color="primary" onClick={confirmConfiguration}>
           Next
         </Button>
         <Button className={styles.actionButtons} color="secondary" onClick={() => history.push("/${Step - 1}")}>

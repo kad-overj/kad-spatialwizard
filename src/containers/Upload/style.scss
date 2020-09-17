@@ -12,14 +12,8 @@
 button.actionButtons {
   border-radius: unset;
 }
-
 span.uploadButton,
 span.uploadButton:hover {
   background-color: $pallette-secondary;
   color: $pallette-gray-light;
-}
-
-button.btnNext,
-button.btnNext:hover {
-  background-color: $pallette-secondary;
 }
