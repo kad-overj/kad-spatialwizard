@@ -93,9 +93,6 @@ const Configure: React.FC<Props> = ({}) => {
         <Button className={styles.actionButtons} variant="contained" color="primary" onClick={confirmConfiguration}>
           Next
         </Button>
-        <Button className={styles.actionButtons} color="secondary" onClick={() => history.push("/${Step - 1}")}>
-          Home
-        </Button>
       </Box>
     </>
   );
