@@ -59,10 +59,3 @@ const App: React.FC<Props> = () => {
   );
 };
 export default App;
-
-/*
-
-
-<div className={styles.LDWizardImg} dangerouslySetInnerHTML={{ __html: LDWizardImg }} />
-
-*/
