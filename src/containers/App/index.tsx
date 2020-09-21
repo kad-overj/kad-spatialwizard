@@ -2,8 +2,7 @@ import React from "react";
 import Wizard from "containers/Wizard";
 import { AppBar, Toolbar, Typography, Container, Paper } from "@material-ui/core";
 import { createMuiTheme, makeStyles, ThemeProvider } from "@material-ui/core/styles";
-import LDWizardImg from "!raw-loader!./LDWizard.svg";
-//import NDEImg from "./ndelogo.png";
+import KDWImg from "./kdwizlogo.png";
 import * as styles from "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
@@ -28,7 +27,7 @@ const App: React.FC<Props> = () => {
       <div className={styles.app}>
         <AppBar position="static" color="default">
           <Toolbar>
-            <img className={styles.image} />
+            <img src={KDWImg} className={styles.image} />
             <Typography>Spatial Wizard</Typography>
             <div className={styles.homeContainer}>
               <a className={styles.home} href="1">
