@@ -4,7 +4,6 @@ import { AppBar, Toolbar, Typography, Container, Paper } from "@material-ui/core
 import KDWImg from "./kdwizlogo.png";
 import * as styles from "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 require("../../theme/global.scss");
 interface Props {}
