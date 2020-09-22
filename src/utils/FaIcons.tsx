@@ -19,6 +19,7 @@ import {
   faTimes,
   faUpload,
   faPlus,
+  faHome,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -43,7 +44,8 @@ export default function registerIcons() {
     faTimes,
     faThumbsUp,
     faThumbsUpSolid,
-    faUpload
+    faUpload,
+    faHome
   );
 }
 declare module "@fortawesome/fontawesome-svg-core" {

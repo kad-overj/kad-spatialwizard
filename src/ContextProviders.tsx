@@ -8,8 +8,8 @@ import { RecoilRoot } from "recoil";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 const theme = createMuiTheme({
   palette: {
-    primary: { main: "#0a3dfa" },
-    secondary: { main: "#172a59" },
+    primary: { main: "#00387d" },
+    secondary: { main: "#008296" },
   },
 });
 const ContextProviders: React.FC = ({ children }) => {
