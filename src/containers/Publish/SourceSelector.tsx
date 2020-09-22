@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function SourceSelector() {
   const classes = useStyles();
-  const [state, setState] = React.useState<{ age: string | number; name: string }>({
-    age: "",
-    name: "hai",
+  const [state, setState] = React.useState<{ id: string | number; source: string }>({
+    id: "",
+    source: "",
   });
 
   const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
@@ -36,53 +36,20 @@ export default function SourceSelector() {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-        <Select
-          native
-          value={state.age}
+        <InputLabel htmlFor="source-native-helper">Tokensource</InputLabel>
+        <NativeSelect
+          value={state.source}
           onChange={handleChange}
           inputProps={{
-            name: "age",
-            id: "age-native-simple",
+            name: "source",
+            id: "source-native-helper",
           }}
         >
           <option aria-label="None" value="" />
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-native-helper">Age</InputLabel>
-        <NativeSelect
-          value={state.age}
-          onChange={handleChange}
-          inputProps={{
-            name: "age",
-            id: "age-native-helper",
-          }}
-        >
-          <option aria-label="None" value="" />
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
+          <option value={10}>PLDN</option>
+          <option value={20}>Kadaster</option>
         </NativeSelect>
-        <FormHelperText>Some important helper text</FormHelperText>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <NativeSelect
-          value={state.age}
-          onChange={handleChange}
-          name="age"
-          className={classes.selectEmpty}
-          inputProps={{ "aria-label": "age" }}
-        >
-          <option value="">None</option>
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
-        </NativeSelect>
-        <FormHelperText>With visually hidden label</FormHelperText>
+        <FormHelperText>Some important helper text </FormHelperText>
       </FormControl>
     </div>
   );

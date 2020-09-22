@@ -3,7 +3,7 @@ import { TextField, Button, Typography, Checkbox, FormControlLabel, IconButton }
 import { useRecoilState, useRecoilValue } from "recoil";
 import * as style from "./style.scss";
 import { currentTokenState, accountsInfoQuery } from "state/clientJs";
-import SourceSelector from "./SourceSelector";
+
 import ErrorBoundary from "components/ErrorBoundary";
 
 import App from "@triply/client.js";
@@ -63,10 +63,6 @@ const TokenForm: React.FC<Props> = () => {
             return loadToken();
           }}
         >
-          <div className={style.sourceSelector}>
-            <SourceSelector />
-          </div>
-
           <div className={style.tokenField}>
             <TextField
               fullWidth
@@ -78,6 +74,16 @@ const TokenForm: React.FC<Props> = () => {
                 setCurrentTokenValue(event.currentTarget.value);
                 setTokenError(undefined);
               }}
+              helperText={
+                tokenError || (
+                  <>
+                    Create a new token {/* TODO: Create a config */}
+                    <a href="https://data.labs.kadaster.nl/login?returnTo=/me/-/settings/tokens" target="_blank">
+                      here
+                    </a>
+                  </>
+                )
+              }
             />
             <FormControlLabel
               control={
