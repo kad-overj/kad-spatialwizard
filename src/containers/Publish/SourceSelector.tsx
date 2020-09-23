@@ -23,7 +23,6 @@ export default function SourceSelector() {
     id: "",
     source: "",
   });
-
   const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
     const name = event.target.name as keyof typeof state;
     setState({
@@ -32,6 +31,26 @@ export default function SourceSelector() {
     });
   };
 
+  let helperText;
+  if (state.source == "Kadaster") {
+    helperText = (
+      <FormHelperText>
+        Create a new token from {/* TODO: Create a config */}
+        <a href="https://data.labs.kadaster.nl/login?returnTo=/me/-/settings/tokens" target="_blank">
+          {state.source}
+        </a>
+      </FormHelperText>
+    );
+  } else {
+    helperText = (
+      <FormHelperText>
+        Create a new token from {/* TODO: Link to PLDN API */}
+        <a href="https://wikipedia.org" target="_blank">
+          {state.source}
+        </a>
+      </FormHelperText>
+    );
+  }
   return (
     <div>
       <FormControl className={classes.formControl}>
@@ -44,11 +63,10 @@ export default function SourceSelector() {
             id: "source-native-helper",
           }}
         >
-          <option aria-label="None" value="" />
-          <option value={10}>PLDN</option>
-          <option value={20}>Kadaster</option>
+          <option value={"Kadaster"}>Kadaster</option>
+          <option value={"PLDN"}>PLDN</option>
         </NativeSelect>
-        <FormHelperText>Some important helper text </FormHelperText>
+        {helperText}
       </FormControl>
     </div>
   );
