@@ -45,7 +45,7 @@ export default function SourceSelector() {
     helperText = (
       <FormHelperText>
         Create a new token from {/* TODO: Link to PLDN API */}
-        <a href="https://wikipedia.org" target="_blank">
+        <a href="https://data.pldn.nl/login?returnTo=/me/-/settings/tokens" target="_blank">
           {state.source}
         </a>
       </FormHelperText>
