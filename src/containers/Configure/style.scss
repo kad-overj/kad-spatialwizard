@@ -34,6 +34,23 @@ th.tableHeader {
     background-color: #ccc;
   }
 }
+
+td.tableCell {
+  padding: 2px;
+  &:hover {
+    background-color: #eee;
+  }
+  &.disabled {
+    cursor: default;
+    background-color: #ccc;
+  }
+}
+
+button.cellButton {
+  &:hover {
+    background-color: #eee;
+  }
+}
 .hint {
   pointer-events: none;
 }

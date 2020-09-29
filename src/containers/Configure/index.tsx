@@ -14,6 +14,7 @@ import {
   AccordionDetails,
   Typography,
   TableHead,
+  ButtonBase,
 } from "@material-ui/core";
 import { Redirect, useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -22,9 +23,11 @@ import * as styles from "./style.scss";
 import BaseIriField from "./BaseIriField";
 import FontAwesomeIcon from "components/FontAwesomeIcon";
 import TableHeaders from "./InteractiveTableHeaders";
+import InteractiveTableBody from "./InteractiveTableBody";
 import ResourceClassField from "./ClassField";
 import { Skeleton } from "@material-ui/lab";
 import ColumnSelector from "./ColumnSelector";
+
 interface Props {}
 
 export const Step = 2;
@@ -38,7 +41,6 @@ const Configure: React.FC<Props> = ({}) => {
   if (!parsedCsv) {
     return <Redirect to="/1" />;
   }
-
   return (
     <>
       <Container className={styles.globalSettingsForm}>
@@ -72,17 +74,7 @@ const Configure: React.FC<Props> = ({}) => {
             >
               <TableHeaders />
             </React.Suspense>
-            <TableBody>
-              {parsedCsv.slice(1, 10).map((row, rowIndex) => {
-                return (
-                  <TableRow key={rowIndex}>
-                    {row.map((cell, cellIndex) => (
-                      <TableCell key={"r" + rowIndex + "c" + cellIndex}>{cell}</TableCell>
-                    ))}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
+            <InteractiveTableBody />
           </Table>
         </TableContainer>
       </Paper>
