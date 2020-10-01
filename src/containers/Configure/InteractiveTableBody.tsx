@@ -40,9 +40,7 @@ const InteractiveTableBody: React.FC<Props> = ({}) => {
             <TableRow key={rowIndex}>
               {row.map((cell, cellIndex) => (
                 <TableCell className={styles.tableCell} key={"r" + rowIndex + "c" + cellIndex}>
-                  <Button className={styles.cellButton} onClick={}>
-                    {cell}
-                  </Button>
+                  <Button className={styles.cellButton}>{cell}</Button>
                 </TableCell>
               ))}
             </TableRow>
