@@ -14,7 +14,7 @@ const App: React.FC<Props> = () => {
       <AppBar position="static" color="default">
         <Toolbar>
           <img src={KDWImg} className={styles.image} />
-          <Typography>Spatial Wizard</Typography>
+          <Typography className={styles.title}>Spatial Wizard</Typography>
           <div className={styles.homeContainer}>
             <a className={styles.home} href="1">
               <FontAwesomeIcon icon="home" />
