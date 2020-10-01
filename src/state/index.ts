@@ -25,7 +25,7 @@ export const transformationConfigState = atom<TransformationConfiguration>({
     baseIri: "https://data.labs.kadaster.nl/",
     columnConfiguration: [],
     sourceFileName: "input.csv",
-    resourceClass: "http://www.w3.org/2000/01/rdf-schema#Resource",
+    resourceClass: "http://bag.basisregistraties.overheid.nl/def/bag#",
     csvProps: {
       delimiter: ",",
     },
