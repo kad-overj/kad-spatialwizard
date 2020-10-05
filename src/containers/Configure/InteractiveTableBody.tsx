@@ -59,7 +59,6 @@ const CellDialog: React.FC<AutoCompleteProps> = ({ selectedField, onClose }) => 
     <Dialog open={selectedField !== undefined} onClose={onClose} fullWidth>
       <DialogTitle>Choose property ({selectedField})</DialogTitle>
       <DialogContent>
-        {console.log(selectedField)}
         <p>Bake the eggs!!</p>
       </DialogContent>
       <DialogActions>

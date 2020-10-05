@@ -16,7 +16,9 @@
     "util:markStable": "git tag -d stable && git push origin :refs/tags/stable && git tag stable && git push origin stable",
     "util:prettify": "prettier --parser typescript --write $(find ./src -regex '.*\\.tsx?$') && prettier --parser css --write $(find ./src -regex '.*\\.?scss$')",
     "util:validateTs:watch": "tsc -p ./tsconfig-validate.json --noEmit --watch --preserveWatchOutput",
-    "util:validateTs": "tsc -p ./tsconfig-validate.json --noEmit"
+    "util:validateTs": "tsc -p ./tsconfig-validate.json --noEmit",
+    "predeploy": "yarn run build",
+    "deploy": "gh pages -b master -d build"
   },
   "lint-staged": {
     "*.ts?(x)": [
@@ -47,6 +49,7 @@
       }
     }
   },
+  "homepage": "https://kad-overj.github.io",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
