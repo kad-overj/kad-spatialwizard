@@ -11,6 +11,7 @@ export type ColumnConfiguration = {
   columnName: string;
   propertyIri?: string;
 };
+
 export interface TransformationConfiguration {
   /** Base IRI */
   baseIri: string | Rdf.NamedNode;
