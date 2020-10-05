@@ -18,7 +18,7 @@
     "util:validateTs:watch": "tsc -p ./tsconfig-validate.json --noEmit --watch --preserveWatchOutput",
     "util:validateTs": "tsc -p ./tsconfig-validate.json --noEmit",
     "predeploy": "yarn run build",
-    "deploy": "gh pages -b master -d build"
+    "deploy": "gh-pages -b master -d build"
   },
   "lint-staged": {
     "*.ts?(x)": [
