@@ -128,7 +128,6 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
         Choose property (
         {selectedHeader !== undefined && transformationConfig.columnConfiguration[selectedHeader].columnName})
       </DialogTitle>
-      {console.log(selectedHeader)}
       <DialogContent>
         {selectedHeader !== undefined && (
           <form onSubmit={confirmIri}>
