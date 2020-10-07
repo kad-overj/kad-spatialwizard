@@ -17,8 +17,12 @@ import {
 import * as styles from "./style.scss";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-import { matrixState } from "state";
+import { matrixState, prefixState } from "state";
 import { Redirect } from "react-router-dom";
+import { AutocompleteSuggestion } from "utils/autocomplete";
+import { Autocomplete } from "@material-ui/lab";
+import { getPrefixed } from "@triply/utils/lib/prefixUtils";
+import HintWrapper from "components/HintWrapper";
 
 interface Props {}
 const InteractiveTableBody: React.FC<Props> = ({}) => {
@@ -55,11 +59,30 @@ interface AutoCompleteProps {
   onClose: () => void;
 }
 const CellDialog: React.FC<AutoCompleteProps> = ({ selectedField, onClose }) => {
+  const prefixes = useRecoilValue(prefixState);
+  const [autocompleteError, setAutocompleteError] = React.useState<string | undefined>();
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = React.useState<AutocompleteSuggestion[]>([]);
+  const selectedCell = selectedField != undefined || undefined;
+  const [propertyIri, setPropertyIri] = React.useState(selectedCell || "");
   return (
     <Dialog open={selectedField !== undefined} onClose={onClose} fullWidth>
       <DialogTitle>Choose property ({selectedField})</DialogTitle>
       <DialogContent>
-        <p>Bake the eggs!!</p>
+        {selectedField !== undefined && (
+          <form>
+            <HintWrapper hint="This IRI will define the relation between the key column and this column">
+              <TextField
+                autoFocus
+                label="property URI"
+                placeholder="Bake the eggs"
+                InputLabelProps={{ shrink: true }}
+                type="url"
+                inputMode="url"
+                fullWidth
+              />
+            </HintWrapper>
+          </form>
+        )}
       </DialogContent>
       <DialogActions>
         <Button

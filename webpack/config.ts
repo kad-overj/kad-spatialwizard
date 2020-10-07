@@ -25,12 +25,12 @@ if (isDev) {
   //ignore these, to avoid infinite loops while watching
   plugins.push(new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]));
 } else {
-  plugins.push(
+  /*plugins.push(
     new MiniCssExtractPlugin({
       filename: "[name].min.css",
       chunkFilename: "[id].css",
     })
-  );
+  );*/
 }
 plugins.push(
   new HtmlWebpackPlugin({
