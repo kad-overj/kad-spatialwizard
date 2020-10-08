@@ -58,6 +58,7 @@ interface AutoCompleteProps {
   selectedField: string | undefined;
   onClose: () => void;
 }
+
 const CellDialog: React.FC<AutoCompleteProps> = ({ selectedField, onClose }) => {
   const prefixes = useRecoilValue(prefixState);
   const [autocompleteError, setAutocompleteError] = React.useState<string | undefined>();
