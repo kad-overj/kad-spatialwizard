@@ -12,6 +12,11 @@ export type ColumnConfiguration = {
   propertyIri?: string;
 };
 
+export type CellConfiguration = {
+  cellName: string;
+  propertyIri?: string;
+};
+
 export interface TransformationConfiguration {
   /** Base IRI */
   baseIri: string | Rdf.NamedNode;
@@ -24,6 +29,17 @@ export interface TransformationConfiguration {
   /** Class URI applied to each row */
   resourceClass: string;
   /** Meta information about the CSV dialect */
+  csvProps: {
+    delimiter: string;
+  };
+}
+
+export interface CellTransformationConfiguration {
+  baseIri: string;
+  key?: number;
+  cellConfiguration: CellConfiguration[];
+  sourceFileName: string;
+  resourceClass: string;
   csvProps: {
     delimiter: string;
   };
