@@ -42,7 +42,7 @@ const InteractiveTableBody: React.FC<Props> = ({}) => {
           const fullUri = propertyIRI ?? `${cellTranformationConfig.baseIri}${cellConfig.cellName}`;
           const shortUri = propertyIRI !== undefined ? getPrefixed(propertyIRI, prefixes) || propertyIRI : "";
           const isKeyColumn = idx === cellTranformationConfig.key;
-          return parsedCsv.slice(1, 10).map((row: any[], rowIndex: string | number | undefined) => {
+          return parsedCsv.slice(1, 10).map((row, rowIndex) => {
             return (
               <TableRow key={rowIndex}>
                 {row.map((cell, cellIndex) => (
