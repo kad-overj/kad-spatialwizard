@@ -37,18 +37,24 @@ const InteractiveTableBody: React.FC<Props> = ({}) => {
   return (
     <>
       <TableBody>
-        {parsedCsv.slice(1, 10).map((row, rowIndex) => {
-          return (
-            <TableRow key={rowIndex}>
-              {row.map((cell, cellIndex) => (
-                <TableCell className={styles.tableCell} key={"r" + rowIndex + "c" + cellIndex}>
-                  <Button className={styles.cellButton} onClick={() => setSelectedField(cell)}>
-                    {cell}
-                  </Button>
-                </TableCell>
-              ))}
-            </TableRow>
-          );
+        {cellTranformationConfig.cellConfiguration.map((cellConfig, idx) => {
+          const propertyIRI = cellTranformationConfig.cellConfiguration[idx].propertyIri;
+          const fullUri = propertyIRI ?? `${cellTranformationConfig.baseIri}${cellConfig.cellName}`;
+          const shortUri = propertyIRI !== undefined ? getPrefixed(propertyIRI, prefixes) || propertyIRI : "";
+          const isKeyColumn = idx === cellTranformationConfig.key;
+          return parsedCsv.slice(1, 10).map((row: any[], rowIndex: string | number | undefined) => {
+            return (
+              <TableRow key={rowIndex}>
+                {row.map((cell, cellIndex) => (
+                  <TableCell className={styles.tableCell} key={"r" + rowIndex + "c" + cellIndex}>
+                    <Button className={styles.cellButton} onClick={() => setSelectedField(cell)}>
+                      {cell}
+                    </Button>
+                  </TableCell>
+                ))}
+              </TableRow>
+            );
+          });
         })}
       </TableBody>
       <CellDialog key={selectedField} selectedField={selectedField} onClose={() => setSelectedField(undefined)} />
@@ -109,13 +115,3 @@ function showTestAlert(selectedField: any) {
 }
 
 export default InteractiveTableBody;
-
-/*
-             {cellTranformationConfig.cellConfiguration.map((cellConfig, idx) =>
-                const propertyIRI = cellTranformationConfig.cellConfiguration[idx].propertyIri;
-                const fullUri = propertyIRI ?? `${cellTranformationConfig.baseIri}${cellConfig.cellName}`;
-                const shortUri = propertyIRI !== undefined ? getPrefixed(propertyIRI, prefixes) || propertyIRI : "";
-                const isKeyColumn = idx === transformationConfig.key;
-              )}
-
-*/
