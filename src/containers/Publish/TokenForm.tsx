@@ -9,16 +9,19 @@ import ErrorBoundary from "components/ErrorBoundary";
 import App from "@triply/client.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SourceSelector from "./SourceSelector";
+import * as pldnToken from "tokensources";
 
 export interface Props {}
 const TokenForm: React.FC<Props> = () => {
+  let tokenObj = pldnToken.pldnToken[0];
   const [token, setToken] = useRecoilState(currentTokenState);
   const accounts = useRecoilValue(accountsInfoQuery);
   // The first account is always the token owner
   const tokenOwner = accounts[0];
 
   const [shouldStoreToken, setShouldStoreToken] = React.useState(true);
-  const [currentTokenValue, setCurrentTokenValue] = React.useState("");
+  const [currentTokenValue, setCurrentTokenValue] = React.useState(tokenObj.value);
+
   const [tokenError, setTokenError] = React.useState<string>();
 
   const loadToken = async () => {
@@ -64,9 +67,6 @@ const TokenForm: React.FC<Props> = () => {
             return loadToken();
           }}
         >
-          <div>
-            <SourceSelector />
-          </div>
           <div className={style.tokenField}>
             <TextField
               fullWidth
