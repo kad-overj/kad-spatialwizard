@@ -17,7 +17,7 @@ import {
 import * as styles from "./style.scss";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-import { matrixState, prefixState } from "state";
+import { cellTransformationConfigState, matrixState, prefixState } from "state";
 import { Redirect } from "react-router-dom";
 import { AutocompleteSuggestion } from "utils/autocomplete";
 import { Autocomplete } from "@material-ui/lab";
@@ -26,8 +26,10 @@ import HintWrapper from "components/HintWrapper";
 
 interface Props {}
 const InteractiveTableBody: React.FC<Props> = ({}) => {
+  const cellTranformationConfig = useRecoilValue(cellTransformationConfigState);
   const parsedCsv = useRecoilValue(matrixState);
   const [selectedField, setSelectedField] = React.useState<any | undefined>();
+  const prefixes = useRecoilValue(prefixState);
 
   if (!parsedCsv) {
     return <Redirect to="/1" />;
@@ -107,3 +109,13 @@ function showTestAlert(selectedField: any) {
 }
 
 export default InteractiveTableBody;
+
+/*
+             {cellTranformationConfig.cellConfiguration.map((cellConfig, idx) =>
+                const propertyIRI = cellTranformationConfig.cellConfiguration[idx].propertyIri;
+                const fullUri = propertyIRI ?? `${cellTranformationConfig.baseIri}${cellConfig.cellName}`;
+                const shortUri = propertyIRI !== undefined ? getPrefixed(propertyIRI, prefixes) || propertyIRI : "";
+                const isKeyColumn = idx === transformationConfig.key;
+              )}
+
+*/
