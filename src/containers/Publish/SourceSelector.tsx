@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -16,8 +16,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+export interface Props {
+  resetToken: (errorText: string) => void;
+}
 
-export default function SourceSelector() {
+const SourceSelector: React.FC<Props> = (prop: Props) => {
   const classes = useStyles();
   const [state, setState] = React.useState<{ id: string | number; source: string }>({
     id: "",
@@ -70,4 +73,6 @@ export default function SourceSelector() {
       </FormControl>
     </div>
   );
-}
+};
+
+export default SourceSelector;
