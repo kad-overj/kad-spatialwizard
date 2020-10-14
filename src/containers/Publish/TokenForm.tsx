@@ -1,5 +1,16 @@
 import * as React from "react";
-import { TextField, Button, Typography, Checkbox, FormControlLabel, IconButton } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Typography,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  NativeSelect,
+  FormControl,
+  InputLabel,
+  FormHelperText,
+} from "@material-ui/core";
 import { useRecoilState, useRecoilValue } from "recoil";
 import * as style from "./style.scss";
 import { currentTokenState, accountsInfoQuery } from "state/clientJs";
@@ -8,22 +19,58 @@ import ErrorBoundary from "components/ErrorBoundary";
 
 import App from "@triply/client.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SourceSelector from "./SourceSelector";
-import * as pldnToken from "tokensources";
+import { pldnToken } from "tokensources";
 
 export interface Props {}
 const TokenForm: React.FC<Props> = () => {
-  let tokenObj = pldnToken.pldnToken[0];
+  let tokenObj = pldnToken[0];
   const [token, setToken] = useRecoilState(currentTokenState);
   const accounts = useRecoilValue(accountsInfoQuery);
   // The first account is always the token owner
   const tokenOwner = accounts[0];
 
   const [shouldStoreToken, setShouldStoreToken] = React.useState(true);
-  const [currentTokenValue, setCurrentTokenValue] = React.useState(tokenObj.value);
+  const [currentTokenValue, setCurrentTokenValue] = React.useState("");
 
   const [tokenError, setTokenError] = React.useState<string>();
+  const [state, setState] = React.useState<{ id: string | number; source: string }>({
+    id: "",
+    source: "",
+  });
+  const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+    const name = event.target.name as keyof typeof state;
+    setState({
+      ...state,
+      [name]: event.target.value,
+    });
+    if (event.target.value == "default") {
+      setCurrentTokenValue(tokenObj.value);
+    } else {
+      setCurrentTokenValue("");
+    }
+  };
 
+  let helperText;
+  if (state.source == "Kadaster") {
+    helperText = (
+      <FormHelperText>
+        Create a new token from {/* TODO: Create a config */}
+        <a href="https://data.labs.kadaster.nl/login?returnTo=/me/-/settings/tokens" target="_blank">
+          {state.source}
+        </a>
+      </FormHelperText>
+    );
+  }
+  if (state.source == "PLDN") {
+    helperText = (
+      <FormHelperText>
+        Create a new token from {/* TODO: Link to PLDN API */}
+        <a href="https://data.pldn.nl/login?returnTo=/me/-/settings/tokens" target="_blank">
+          {state.source}
+        </a>
+      </FormHelperText>
+    );
+  }
   const loadToken = async () => {
     try {
       const app = App.get(currentTokenValue);
@@ -67,6 +114,25 @@ const TokenForm: React.FC<Props> = () => {
             return loadToken();
           }}
         >
+          <div>
+            <FormControl className={style.tokenControl}>
+              <InputLabel htmlFor="source-native-helper">Token account</InputLabel>
+              <NativeSelect
+                value={state.source}
+                onChange={handleChange}
+                inputProps={{
+                  name: "source",
+                  id: "source-native-helper",
+                }}
+              >
+                <option>Select Account</option>
+                <option value={"default"}>Spatial Wizard(PLDN)</option>
+                <option value={"Kadaster"}>Kadaster</option>
+                <option value={"PLDN"}>PLDN</option>
+              </NativeSelect>
+              {helperText}
+            </FormControl>
+          </div>
           <div className={style.tokenField}>
             <TextField
               fullWidth
