@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Papa from "papaparse";
 import { useHistory } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { sourceState, matrixState, transformationConfigState } from "state";
+import { sourceState, matrixState, transformationConfigState, cellTransformationConfigState } from "state";
 import classNames from "classnames";
+import { indexOf } from "*.jpg";
 
 interface Props {}
 export const Step = 1;
@@ -34,6 +35,7 @@ const Upload: React.FC<Props> = ({}) => {
   const [source, setSource] = useRecoilState(sourceState);
 
   const setTransformationConfig = useSetRecoilState(transformationConfigState);
+  const setCellTransformationConfig = useSetRecoilState(cellTransformationConfigState);
 
   const sourceText =
     (source && (typeof source === "string" ? "Input selected" : `Current file: ${source.name}`)) || "No file selected";
@@ -61,6 +63,20 @@ const Upload: React.FC<Props> = ({}) => {
               }),
             };
           });
+          setCellTransformationConfig((state) => {
+            return {
+              ...state,
+              key: undefined,
+              csvProps: {
+                delimiter: parseResults.meta.delimiter,
+              },
+
+              cellConfiguration: parseResults.data[1].map((value) => {
+                return { cellName: value };
+              }),
+            };
+          });
+
           history.push(`/${Step + 1}`);
         })
         .catch((e) => {

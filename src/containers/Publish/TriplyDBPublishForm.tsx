@@ -10,7 +10,6 @@ import { currentTokenState, apiInfoState } from "state/clientJs";
 import AddDataset from "./AddDatasetForm";
 import * as styles from "./style.scss";
 import TriplyDBPublishProcess from "./TriplyDBPublishProcess";
-import SourceSelector from "./SourceSelector";
 // ClientJS Recoil state
 
 // Component
@@ -39,7 +38,6 @@ const TriplyDBUpload: React.FC<Props> = ({ transformationResult }) => {
           avatar={apiInfo && <Avatar src={apiInfo.branding.logo} />}
         />
         <CardContent>
-          <SourceSelector resetToken={resetToken} />
           <ErrorBoundary>
             <TokenForm />
           </ErrorBoundary>

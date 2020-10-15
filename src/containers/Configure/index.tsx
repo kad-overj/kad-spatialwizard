@@ -74,7 +74,17 @@ const Configure: React.FC<Props> = ({}) => {
             >
               <TableHeaders />
             </React.Suspense>
-            <InteractiveTableBody />
+            <React.Suspense
+              fallback={
+                <Skeleton
+                  width="100%"
+                  style={{ display: "table-cell" }}
+                  component={(props) => <TableBody {...props} />}
+                />
+              }
+            >
+              <InteractiveTableBody />
+            </React.Suspense>
           </Table>
         </TableContainer>
       </Paper>
