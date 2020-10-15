@@ -7,6 +7,7 @@ export type Matrix = Array<Array<string>>;
 export type Source = File | string;
 export type TransformationScript = string | {};
 export type TransformationOutput = string;
+
 export type ColumnConfiguration = {
   columnName: string;
   propertyIri?: string;

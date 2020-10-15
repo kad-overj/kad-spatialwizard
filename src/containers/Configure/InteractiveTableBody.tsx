@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import * as styles from "./style.scss";
 import { useRecoilState, useRecoilValue } from "recoil";
-
+import getClassName from "classnames";
 import { cellTransformationConfigState, matrixState, prefixState } from "state";
 import { Redirect } from "react-router-dom";
 import { AutocompleteSuggestion } from "utils/autocomplete";
@@ -34,22 +34,36 @@ const InteractiveTableBody: React.FC<Props> = ({}) => {
   if (!parsedCsv) {
     return <Redirect to="/1" />;
   }
+
   return (
     <>
       <TableBody>
-        {parsedCsv.slice(1, 10).map((row, rowIndex) => {
-          return (
-            <TableRow key={rowIndex}>
-              {row.map((cell, cellIndex) => (
-                <TableCell className={styles.tableCell} key={"r" + rowIndex + "c" + cellIndex}>
-                  <Button className={styles.cellButton} onClick={() => setSelectedField(cell)}>
-                    {cell}
-                  </Button>
-                </TableCell>
-              ))}
-            </TableRow>
-          );
-        })}
+        <TableRow>
+          {cellTranformationConfig.cellConfiguration.map((cellConfig, idx) => {
+            const propertyIRI = cellTranformationConfig.cellConfiguration[idx].propertyIri;
+            const fullUri = propertyIRI ?? `${cellTranformationConfig.baseIri}${cellConfig.cellName}`;
+            const shortUri = propertyIRI !== undefined ? getPrefixed(propertyIRI, prefixes) || propertyIRI : "";
+            const isKeyColumn = idx === cellTranformationConfig.key;
+            return (
+              <TableCell
+                key={`${cellConfig.cellName}${idx}`}
+                className={getClassName(styles.tableCell, { [styles.disabled]: isKeyColumn })}
+                // Implement the disable here, I still want to be able to use tooltip
+                onClick={isKeyColumn ? undefined : () => setSelectedField(idx)}
+                // Replace Default tableCell with ButtonBase to create ripple effects on click
+                component={(props) => (
+                  <Tooltip title={isKeyColumn ? "This column will be used to create identifiers" : fullUri}>
+                    <ButtonBase {...props} component="td" />
+                  </Tooltip>
+                )}
+              >
+                <p>{cellConfig.cellName + (isKeyColumn ? " (Key)" : "")}</p>
+                <br />
+                {shortUri ? <Typography variant="caption">{shortUri}</Typography> : <br />}
+              </TableCell>
+            );
+          })}
+        </TableRow>
       </TableBody>
       <CellDialog key={selectedField} selectedField={selectedField} onClose={() => setSelectedField(undefined)} />
     </>
@@ -109,13 +123,3 @@ function showTestAlert(selectedField: any) {
 }
 
 export default InteractiveTableBody;
-
-/*
-             {cellTranformationConfig.cellConfiguration.map((cellConfig, idx) =>
-                const propertyIRI = cellTranformationConfig.cellConfiguration[idx].propertyIri;
-                const fullUri = propertyIRI ?? `${cellTranformationConfig.baseIri}${cellConfig.cellName}`;
-                const shortUri = propertyIRI !== undefined ? getPrefixed(propertyIRI, prefixes) || propertyIRI : "";
-                const isKeyColumn = idx === transformationConfig.key;
-              )}
-
-*/
