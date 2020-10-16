@@ -1,5 +1,4 @@
-const AUTOCOMPLETE_LOCATION =
-  "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/search/search";
+const AUTOCOMPLETE_LOCATION = "https://api.labs.kadaster.nl/datasets/kadaster/ld-wizard/services/search/search";
 
 const CLASS_SEARCH_CONFIG = [
   {

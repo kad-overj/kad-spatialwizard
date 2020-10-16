@@ -14,7 +14,6 @@ import {
   AccordionDetails,
   Typography,
   TableHead,
-  ButtonBase,
 } from "@material-ui/core";
 import { Redirect, useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -23,7 +22,6 @@ import * as styles from "./style.scss";
 import BaseIriField from "./BaseIriField";
 import FontAwesomeIcon from "components/FontAwesomeIcon";
 import TableHeaders from "./InteractiveTableHeaders";
-import InteractiveTableBody from "./InteractiveTableBody";
 import ResourceClassField from "./ClassField";
 import { Skeleton } from "@material-ui/lab";
 import ColumnSelector from "./ColumnSelector";
@@ -74,17 +72,19 @@ const Configure: React.FC<Props> = ({}) => {
             >
               <TableHeaders />
             </React.Suspense>
-            <React.Suspense
-              fallback={
-                <Skeleton
-                  width="100%"
-                  style={{ display: "table-cell" }}
-                  component={(props) => <TableBody {...props} />}
-                />
-              }
-            >
-              <InteractiveTableBody />
-            </React.Suspense>
+            <TableBody>
+              {parsedCsv.slice(1, 10).map((row, rowIndex) => {
+                return (
+                  <TableRow key={rowIndex}>
+                    {row.map((cell, cellIndex) => (
+                      <TableCell className={styles.tableCell} key={"r" + rowIndex + "c" + cellIndex}>
+                        {cell}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
           </Table>
         </TableContainer>
       </Paper>
