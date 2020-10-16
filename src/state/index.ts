@@ -49,7 +49,7 @@ export const prefixState = selector({
   key: "prefixes",
   get: async () => {
     try {
-      const response = await fetch("https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/prefixes");
+      const response = await fetch("https://api.labs.kadaster.nl/datasets/kadaster/ld-wizard/prefixes");
       if (response.ok) {
         const prefixes: PrefixesArray = await response.json();
         return prefixes;
