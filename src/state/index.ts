@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { TransformationConfiguration, Matrix, CellTransformationConfiguration } from "Definitions";
+import { TransformationConfiguration, Matrix } from "Definitions";
 import { PrefixesArray } from "@triply/utils/lib/prefixUtils";
 
 const DEFAULT_PREFIXES: PrefixesArray = [
@@ -24,19 +24,6 @@ export const transformationConfigState = atom<TransformationConfiguration>({
   default: {
     baseIri: "https://data.labs.kadaster.nl/",
     columnConfiguration: [],
-    sourceFileName: "input.csv",
-    resourceClass: "http://bag.basisregistraties.overheid.nl/def/bag#",
-    csvProps: {
-      delimiter: ",",
-    },
-  },
-});
-
-export const cellTransformationConfigState = atom<CellTransformationConfiguration>({
-  key: "config",
-  default: {
-    baseIri: "https://data.labs.kadaster.nl/",
-    cellConfiguration: [],
     sourceFileName: "input.csv",
     resourceClass: "http://bag.basisregistraties.overheid.nl/def/bag#",
     csvProps: {
