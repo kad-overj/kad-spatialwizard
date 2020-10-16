@@ -64,6 +64,7 @@
     "classnames": "^2.2.6",
     "lodash-es": "^4.17.15",
     "n3": "^1.6.3",
+    "neo-async": "^2.6.2",
     "papaparse": "^5.2.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
