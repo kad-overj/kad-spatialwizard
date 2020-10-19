@@ -18,10 +18,10 @@ export type PublishElement = "download" | "triplyDB";
 
 export const wizardConfig: WizardConfig = {
   applyTransformation: applyTransformation,
-  defaultBaseIri: "https://data.netwerkdigitaalerfgoed.nl/",
+  defaultBaseIri: "https://data.labs.kadaster.nl/",
   getClassSuggestions: getClassSuggestions,
   getPropertySuggestions: getPropertySuggestions,
-  prefixesUrl: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/prefixes",
+  prefixesUrl: "https://api.labs.kadaster.nl/datasets/kadaster/ld-wizard/prefixes",
   publishOrder: ["download", "triplyDB"],
   getTransformationScript: (config, type) => {
     switch (type) {
