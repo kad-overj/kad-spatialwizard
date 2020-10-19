@@ -14,6 +14,9 @@ import {
   TextField,
   Checkbox,
   FormControlLabel,
+  NativeSelect,
+  InputLabel,
+  FormControl,
 } from "@material-ui/core";
 import * as styles from "./style.scss";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -25,12 +28,14 @@ import HintWrapper from "components/HintWrapper";
 import { AutocompleteSuggestion } from "Definitions";
 import { wizardConfig } from "config";
 import { cleanCSVValue, getBasePredicateIri } from "utils/helpers";
+import { datatypes } from "mappings/datatypesset";
 
 interface Props {}
 const TableHeaders: React.FC<Props> = ({}) => {
   const transformationConfig = useRecoilValue(transformationConfigState);
   const [selectedHeader, setSelectedHeader] = React.useState<number | undefined>();
   const prefixes = useRecoilValue(prefixState);
+
   return (
     <>
       <TableHead>
@@ -91,6 +96,17 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
   const [propertyIri, setPropertyIri] = React.useState(selectedColumn?.propertyIri || "");
   const [applyIriTransformation, setApplyIriTransformation] = React.useState(selectedColumn?.iriPrefix !== undefined);
   const [iriPrefix, setIriPrefix] = React.useState(selectedColumn?.iriPrefix ?? wizardConfig.defaultBaseIri);
+  const [state, setState] = React.useState<{ id: string | number; source: string }>({
+    id: "",
+    source: "",
+  });
+  const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+    const name = event.target.name as keyof typeof state;
+    setState({
+      ...state,
+      [name]: event.target.value,
+    });
+  };
 
   // Async call for results effect
   React.useEffect(() => {
@@ -141,6 +157,25 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
         <DialogContent>
           {selectedHeader !== undefined && (
             <>
+              <div className={styles.columnConfigSection}>
+                <HintWrapper hint="Select the datatype for the values in column">
+                  <FormControl className={styles.datatypeSelector}>
+                    <InputLabel htmlFor="source-native-helper">Select datatype</InputLabel>
+                    <NativeSelect
+                      value={state.source}
+                      onChange={handleChange}
+                      inputProps={{
+                        name: "source",
+                        id: "source-native-helper",
+                      }}
+                    >
+                      {datatypes.map((datatype) => (
+                        <option value={datatype.value}>{datatype.label}</option>
+                      ))}
+                    </NativeSelect>
+                  </FormControl>
+                </HintWrapper>
+              </div>
               <div className={styles.columnConfigSection}>
                 <Typography variant="subtitle1">Property configuration</Typography>
                 <Autocomplete
