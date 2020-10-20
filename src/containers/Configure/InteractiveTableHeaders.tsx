@@ -94,18 +94,23 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
   const selectedColumn =
     (selectedHeader !== undefined && transformationConfig.columnConfiguration[selectedHeader]) || undefined;
   const [propertyIri, setPropertyIri] = React.useState(selectedColumn?.propertyIri || "");
+  const [columnDatatypeIri, setColumnDataTypeIri] = React.useState(selectedColumn?.datatypeIri || "");
   const [applyIriTransformation, setApplyIriTransformation] = React.useState(selectedColumn?.iriPrefix !== undefined);
   const [iriPrefix, setIriPrefix] = React.useState(selectedColumn?.iriPrefix ?? wizardConfig.defaultBaseIri);
-  const [state, setState] = React.useState<{ id: string | number; source: string }>({
+
+  const [state, setState] = React.useState<{ id: string | number; datatype: string }>({
     id: "",
-    source: "",
+    datatype: "",
   });
-  const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+
+  const handleChange = (event: React.ChangeEvent<{ name?: string; value: string }>) => {
     const name = event.target.name as keyof typeof state;
     setState({
       ...state,
       [name]: event.target.value,
     });
+
+    setColumnDataTypeIri("http://www.w3.org/2001/XMLSchema#" + event.target.value);
   };
 
   // Async call for results effect
@@ -131,6 +136,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
       if (selectedHeader === undefined) return state;
       const columnConfiguration = [...state.columnConfiguration];
       // Objects in recoil arrays are read-only
+      const processedDatatypeIri = columnDatatypeIri.length > 0 ? columnDatatypeIri : undefined;
       const processedPropertyIri = propertyIri.length > 0 ? propertyIri : undefined;
       const processedIriPrefix = applyIriTransformation ? iriPrefix : undefined;
 
@@ -138,12 +144,14 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
         columnName: columnConfiguration[selectedHeader].columnName,
         propertyIri: processedPropertyIri,
         iriPrefix: processedIriPrefix,
+        datatypeIri: processedDatatypeIri,
       };
       return {
         ...state,
         columnConfiguration: columnConfiguration,
       };
     });
+
     // Close the dialog
     onClose();
   };
@@ -160,13 +168,13 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
               <div className={styles.columnConfigSection}>
                 <HintWrapper hint="Select the datatype for the values in column">
                   <FormControl className={styles.datatypeSelector}>
-                    <InputLabel htmlFor="source-native-helper">Select datatype</InputLabel>
+                    <InputLabel htmlFor="datatype-native-helper">Select datatype</InputLabel>
                     <NativeSelect
-                      value={state.source}
+                      value={state.datatype}
                       onChange={handleChange}
                       inputProps={{
-                        name: "source",
-                        id: "source-native-helper",
+                        name: "datatype",
+                        id: "datatype-native-helper",
                       }}
                     >
                       {datatypes.map((datatype) => (
