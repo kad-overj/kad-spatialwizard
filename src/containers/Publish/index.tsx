@@ -22,6 +22,7 @@ const Publish: React.FC<Props> = ({}) => {
   const parsedCsv = useRecoilValue(matrixState);
   const source = useRecoilValue(sourceState);
   const transformationConfig = useRecoilValue(transformationConfigState);
+  console.log(transformationConfig);
   const setCurrentToken = useSetRecoilState(currentTokenState);
   const history = useHistory();
   const downloadRef = React.useRef<HTMLAnchorElement>(null);
