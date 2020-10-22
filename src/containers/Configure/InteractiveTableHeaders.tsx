@@ -59,7 +59,7 @@ const TableHeaders: React.FC<Props> = ({}) => {
                 component={(props) => (
                   <Tooltip
                     PopperProps={{ className: styles.tooltip }}
-                    title={isKeyColumn ? "This column will be used to create identifiers" : fullUri}
+                    title={isKeyColumn ? "This column will be used to create identifier" : fullUri}
                   >
                     <ButtonBase {...props} component="th" />
                   </Tooltip>
