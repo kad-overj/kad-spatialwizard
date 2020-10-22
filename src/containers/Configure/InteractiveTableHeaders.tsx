@@ -146,6 +146,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
         iriPrefix: processedIriPrefix,
         datatypeIri: processedDatatypeIri,
       };
+      console.log(columnConfiguration);
       return {
         ...state,
         columnConfiguration: columnConfiguration,

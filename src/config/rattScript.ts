@@ -1,6 +1,6 @@
 import Ratt from "@triply/ratt";
 import fromArray from "@triply/ratt/lib/middlewares/reading/fromArray";
-import { Util, NamedNode } from "n3";
+import { Util, NamedNode, Literal, DataFactory } from "n3";
 import toNtriplesString from "utils/ratt/middlewares/toNtriplesString";
 import { ApplyTransformation } from "Definitions";
 import { cleanCSVValue, getBaseIdentifierIri, getBasePredicateIri } from "utils/helpers";
@@ -43,6 +43,8 @@ const applyTransformation: ApplyTransformation = async (opts) => {
           const object =
             colConf.iriPrefix !== undefined
               ? new NamedNode(`${colConf.iriPrefix}${cleanCSVValue(ctx.record[col].value)}`)
+              : colConf.datatypeIri !== undefined
+              ? DataFactory.literal(cleanCSVValue(ctx.record[col].value), colConf.datatypeIri)
               : ctx.record[col];
           ctx.store.addQuad(subject, predicate, object);
         }
