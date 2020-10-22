@@ -18,7 +18,7 @@ export type PublishElement = "download" | "triplyDB";
 
 export const wizardConfig: WizardConfig = {
   applyTransformation: applyTransformation,
-  defaultBaseIri: "https://data.labs.kadaster.nl/",
+  defaultBaseIri: "http://bag.basisregistraties.overheid.nl/def/bag#",
   getClassSuggestions: getClassSuggestions,
   getPropertySuggestions: getPropertySuggestions,
   prefixesUrl: "https://api.labs.kadaster.nl/datasets/kadaster/ld-wizard/prefixes",
