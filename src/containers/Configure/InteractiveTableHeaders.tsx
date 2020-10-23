@@ -34,6 +34,7 @@ interface Props {}
 const TableHeaders: React.FC<Props> = ({}) => {
   const transformationConfig = useRecoilValue(transformationConfigState);
   const [selectedHeader, setSelectedHeader] = React.useState<number | undefined>();
+
   const prefixes = useRecoilValue(prefixState);
 
   return (
@@ -88,7 +89,7 @@ interface AutoCompleteProps {
 const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClose }) => {
   const [transformationConfig, setTransformationConfig] = useRecoilState(transformationConfigState);
   const prefixes = useRecoilValue(prefixState);
-
+  const [errorMessage, setErrormessage] = React.useState<string | undefined>();
   const [autocompleteError, setAutocompleteError] = React.useState<string | undefined>();
   const [autocompleteSuggestions, setAutocompleteSuggestions] = React.useState<AutocompleteSuggestion[]>([]);
   const selectedColumn =
@@ -109,8 +110,13 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
       ...state,
       [name]: event.target.value,
     });
-
-    setColumnDataTypeIri("http://www.w3.org/2001/XMLSchema#" + event.target.value);
+    setErrormessage("");
+    if (event.target.value == "") {
+      setColumnDataTypeIri("");
+    } else {
+      setApplyIriTransformation(false);
+      setColumnDataTypeIri("http://www.w3.org/2001/XMLSchema#" + event.target.value);
+    }
   };
 
   // Async call for results effect
@@ -173,11 +179,13 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
                     <NativeSelect
                       value={state.datatype}
                       onChange={handleChange}
+                      error={!!errorMessage}
                       inputProps={{
                         name: "datatype",
                         id: "datatype-native-helper",
                       }}
                     >
+                      <option value=""></option>
                       {datatypes.map((datatype) => (
                         <option value={datatype.value}>{datatype.label}</option>
                       ))}
@@ -267,7 +275,18 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
                     control={
                       <Checkbox
                         checked={applyIriTransformation}
-                        onChange={(_input, checked) => setApplyIriTransformation(checked)}
+                        onChange={(_input, checked) => {
+                          if (checked && columnDatatypeIri == "") {
+                            setApplyIriTransformation(checked);
+                            setErrormessage("");
+                          } else {
+                            setApplyIriTransformation(false);
+                            setErrormessage("Datatype is defined, so can't apply Iri transformation");
+                          }
+                          if (checked == false) {
+                            setErrormessage("");
+                          }
+                        }}
                       />
                     }
                     label={<Typography variant="body2">Convert to IRI</Typography>}
@@ -291,6 +310,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
               </div>
             </>
           )}
+          <p className={styles.error}>{errorMessage}</p>
         </DialogContent>
         <DialogActions>
           <Button className={styles.actionButtons} variant="contained" color="primary" type="submit">

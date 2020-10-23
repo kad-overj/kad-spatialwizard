@@ -60,7 +60,7 @@ async function getCowTransformationScript(configuration: TransformationConfigura
       });
     } else {
       columns.push({
-        datatype: "string",
+        datatype: "string", //Checken if set
         "@id": `${baseIri}column/${columnConfig.columnName}`,
         name: columnConfig.columnName,
         propertyUrl:
