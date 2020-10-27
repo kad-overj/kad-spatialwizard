@@ -111,6 +111,11 @@ async function getRmlTransformationScript(configuration: TransformationConfigura
                   predicate: namedNode("rr:template"),
                   object: literal(`${header.iriPrefix}{${header.columnName}}`),
                 }
+              : header.datatypeIri != undefined
+              ? {
+                  predicate: namedNode("rr:template"),
+                  object: literal(`${header.datatypeIri} {${header.columnName}}`),
+                }
               : { predicate: namedNode("rml:reference"), object: literal(header.columnName) },
           ]),
         },

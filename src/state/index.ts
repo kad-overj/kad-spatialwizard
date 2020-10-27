@@ -22,7 +22,7 @@ export const matrixState = atom<Matrix | undefined>({
 export const transformationConfigState = atom<TransformationConfiguration>({
   key: "config",
   default: {
-    baseIri: "https://data.labs.kadaster.nl/",
+    baseIri: "http://bag.basisregistraties.overheid.nl/def/bag#",
     columnConfiguration: [],
     sourceFileName: "input.csv",
     resourceClass: "http://bag.basisregistraties.overheid.nl/def/bag#",
