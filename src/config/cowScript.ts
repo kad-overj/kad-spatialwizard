@@ -59,13 +59,23 @@ async function getCowTransformationScript(configuration: TransformationConfigura
         valueUrl: `${columnConfig.iriPrefix}{${columnConfig.columnName}}`,
       });
     } else {
-      columns.push({
-        datatype: "string", //Checken if set
-        "@id": `${baseIri}column/${columnConfig.columnName}`,
-        name: columnConfig.columnName,
-        propertyUrl:
-          columnConfig.propertyIri ?? `${getBasePredicateIri(baseIri)}${cleanCSVValue(columnConfig.columnName)}`,
-      });
+      if (columnConfig.datatypeIri == "") {
+        columns.push({
+          datatype: "string",
+          "@id": `${baseIri}column/${columnConfig.columnName}`,
+          name: columnConfig.columnName,
+          propertyUrl:
+            columnConfig.propertyIri ?? `${getBasePredicateIri(baseIri)}${cleanCSVValue(columnConfig.columnName)}`,
+        });
+      } else {
+        columns.push({
+          datatype: columnConfig.datatypeIri,
+          "@id": `${baseIri}column/${columnConfig.columnName}`,
+          name: columnConfig.columnName,
+          propertyUrl:
+            columnConfig.propertyIri ?? `${getBasePredicateIri(baseIri)}${cleanCSVValue(columnConfig.columnName)}`,
+        });
+      }
     }
   }
 
