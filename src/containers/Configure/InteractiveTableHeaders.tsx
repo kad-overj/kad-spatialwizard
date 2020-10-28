@@ -99,15 +99,20 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
   const [applyIriTransformation, setApplyIriTransformation] = React.useState(selectedColumn?.iriPrefix !== undefined);
   const [iriPrefix, setIriPrefix] = React.useState(selectedColumn?.iriPrefix ?? wizardConfig.defaultBaseIri);
 
-  const [state, setState] = React.useState<{ id: string | number; datatype: string }>({
+  const [datatypeState, setDatatypeState] = React.useState<{ id: string | number; datatype: string }>({
     id: "",
     datatype: "",
   });
 
-  const handleChange = (event: React.ChangeEvent<{ name?: string; value: string }>) => {
-    const name = event.target.name as keyof typeof state;
-    setState({
-      ...state,
+  const [valueconfigState, setValueConfigState] = React.useState<{ id: string | number; valueconfig: string }>({
+    id: "",
+    valueconfig: "",
+  });
+
+  const handleDatatypeChange = (event: React.ChangeEvent<{ name?: string; value: string }>) => {
+    const name = event.target.name as keyof typeof datatypeState;
+    setDatatypeState({
+      ...datatypeState,
       [name]: event.target.value,
     });
     setErrormessage("");
@@ -116,6 +121,19 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
     } else {
       setApplyIriTransformation(false);
       setColumnDataTypeIri("http://www.w3.org/2001/XMLSchema#" + event.target.value);
+    }
+  };
+
+  const handleConfigChange = (event: React.ChangeEvent<{ name?: string; value: string }>) => {
+    const name = event.target.name as keyof typeof valueconfigState;
+    setValueConfigState({
+      ...valueconfigState,
+      [name]: event.target.value,
+    });
+    if (event.target.value == "ToIri") {
+      setApplyIriTransformation(true);
+    } else {
+      setApplyIriTransformation(false);
     }
   };
 
@@ -173,12 +191,13 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
           {selectedHeader !== undefined && (
             <>
               <div className={styles.columnConfigSection}>
+                <Typography variant="subtitle1">Datatype</Typography>
                 <HintWrapper hint="Select the datatype for the values in column">
                   <FormControl className={styles.datatypeSelector}>
                     <InputLabel htmlFor="datatype-native-helper">Select datatype</InputLabel>
                     <NativeSelect
-                      value={state.datatype}
-                      onChange={handleChange}
+                      value={datatypeState.datatype}
+                      onChange={handleDatatypeChange}
                       error={!!errorMessage}
                       inputProps={{
                         name: "datatype",
@@ -246,6 +265,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
                         {...props}
                         autoFocus
                         label="property URI"
+                        className={styles.textField}
                         error={!!autocompleteError}
                         helperText={autocompleteError || getPrefixed(propertyIri, prefixes)}
                         placeholder={`${getBasePredicateIri(transformationConfig.baseIri.toString())}${cleanCSVValue(
@@ -270,28 +290,26 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
               </div>
               <div className={styles.columnConfigSection}>
                 <Typography variant="subtitle1">Value configuration</Typography>
-                <HintWrapper hint="When enabled, values in this column will be transformed to IRIs">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={applyIriTransformation}
-                        onChange={(_input, checked) => {
-                          if (checked && columnDatatypeIri == "") {
-                            setApplyIriTransformation(checked);
-                            setErrormessage("");
-                          } else {
-                            setApplyIriTransformation(false);
-                            setErrormessage("Datatype is defined, so can't apply Iri transformation");
-                          }
-                          if (checked == false) {
-                            setErrormessage("");
-                          }
-                        }}
-                      />
-                    }
-                    label={<Typography variant="body2">Convert to IRI</Typography>}
-                  />
+                <HintWrapper hint="Select the value config for the values in column">
+                  <FormControl className={styles.datatypeSelector}>
+                    <InputLabel htmlFor="valueconfig-native-helper">Select config type</InputLabel>
+                    <NativeSelect
+                      value={valueconfigState.valueconfig}
+                      onChange={handleConfigChange}
+                      error={!!errorMessage}
+                      inputProps={{
+                        name: "valueconfig",
+                        id: "valueconfig-native-helper",
+                      }}
+                    >
+                      <option value=""></option>
+                      <option value="ToIri">Value to IRI</option>
+                      <option value="LinkToBag">Link to BAG</option>
+                    </NativeSelect>
+                  </FormControl>
                 </HintWrapper>
+              </div>
+              <div className={styles.columnConfigSection}>
                 {applyIriTransformation && (
                   <div className={styles.indent}>
                     <HintWrapper hint="This prefix will be prepended to all values in this column.">
