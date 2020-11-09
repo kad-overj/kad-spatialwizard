@@ -13,6 +13,7 @@ export type ColumnConfiguration = {
   propertyIri?: string;
   iriPrefix?: string;
   datatypeIri?: string;
+  bagLinkIri?: string;
 };
 
 export interface TransformationConfiguration {
