@@ -211,7 +211,6 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
         datatypeIri: processedDatatypeIri,
         bagLinkIri: processedBagLinkIri,
       };
-      console.log(columnConfiguration);
       return {
         ...state,
         columnConfiguration: columnConfiguration,
@@ -355,8 +354,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
               <div className={styles.columnConfigSection}>
                 {applyBagLinkTransformation &&
                   MyFunction(parsedCsv, selectedHeader).map((value, id) => {
-                    console.log(value);
-                    //getBagIdIriFromResponse(value)
+                    getBagIdIriFromResponse(value);
                   })}
                 {applyIriTransformation && (
                   <div className={styles.indent}>

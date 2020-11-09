@@ -24,6 +24,7 @@ async function getBagIdIri(place: String) {
         "Content-Type": "application/json",
       },
     });
+
     return response.json();
   } catch (err) {
     throw err;
@@ -31,5 +32,8 @@ async function getBagIdIri(place: String) {
 }
 
 export function getBagIdIriFromResponse(place: String) {
-  getBagIdIri(place).then((data) => console.log(data));
+  var arr: any[] = [];
+  getBagIdIri(place).then((data) => arr.push(data[0]));
+  console.log(arr);
+  return arr;
 }
