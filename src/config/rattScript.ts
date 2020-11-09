@@ -44,8 +44,8 @@ const applyTransformation: ApplyTransformation = async (opts) => {
             colConf.iriPrefix !== undefined
               ? new NamedNode(`${colConf.iriPrefix}${cleanCSVValue(ctx.record[col].value)}`)
               : colConf.datatypeIri !== undefined
-              ? DataFactory.literal(cleanCSVValue(ctx.record[col].value), DataFactory.namedNode(colConf.datatypeIri))
-              : ctx.record[col];
+                ? DataFactory.literal(ctx.record[col].value, DataFactory.namedNode(colConf.datatypeIri))
+                : ctx.record[col];
           ctx.store.addQuad(subject, predicate, object);
         }
       }
