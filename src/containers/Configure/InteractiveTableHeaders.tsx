@@ -122,24 +122,18 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
       [name]: event.target.value,
     });
     setErrormessage("");
-    if (event.target.value != "") {
-      if (event.target.value == "wktLiteral") {
-        if (applyIriTransformation) {
-          setErrormessage("Cant apply transformation because datatype is selected");
+    if (valueconfigState.valueconfig == "") {
+      if (event.target.value != "") {
+        if (event.target.value == "wktLiteral") {
+          setColumnDataTypeIri("http://www.opengis.net/ont/geosparql#" + event.target.value);
         } else {
-          setErrormessage("");
+          setColumnDataTypeIri("http://www.w3.org/2001/XMLSchema#" + event.target.value);
         }
-        setColumnDataTypeIri("http://www.opengis.net/ont/geosparql#" + event.target.value);
       } else {
-        setColumnDataTypeIri("http://www.w3.org/2001/XMLSchema#" + event.target.value);
-        if (applyIriTransformation) {
-          setErrormessage("Cant apply transformation because datatype is selected");
-        } else {
-          setErrormessage("");
-        }
+        setErrormessage("");
       }
     } else {
-      setErrormessage("");
+      setErrormessage("There is already a value configuration set");
     }
   };
 
@@ -149,14 +143,18 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
       ...valueconfigState,
       [name]: event.target.value,
     });
-
-    if (event.target.value == "ToIri") {
-      setApplyIriTransformation(true);
-      setApplyBagLinkTransformation(false);
-    }
-    if (event.target.value == "LinkToBag") {
-      setApplyBagLinkTransformation(true);
-      setApplyIriTransformation(false);
+    setErrormessage("");
+    if (datatypeState.datatype == "") {
+      if (event.target.value == "ToIri") {
+        setApplyIriTransformation(true);
+        setApplyBagLinkTransformation(false);
+      }
+      if (event.target.value == "LinkToBag") {
+        setApplyBagLinkTransformation(true);
+        setApplyIriTransformation(false);
+      }
+    } else {
+      setErrormessage("There is already datatype selected");
     }
   };
 
