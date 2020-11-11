@@ -8,7 +8,11 @@ export const datatypes = [
     label: "float",
   },
   {
-    name: "int",
+    value: "int",
     label: "int",
+  },
+  {
+    value: "wktLiteral",
+    label: "wktLiteral",
   },
 ];
