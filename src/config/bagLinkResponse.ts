@@ -1,6 +1,4 @@
-import { data } from "autoprefixer";
-import React from "react";
-import { useState } from "react";
+import { values } from "lodash-es";
 
 const BAG_LOCATION = "https://api.labs.kadaster.nl/queries/jorritovereem/WoonplaatsIriVanafLabel/run?woonplaats=";
 
@@ -32,8 +30,10 @@ async function getBagIdIri(place: String) {
 }
 
 export function getBagIdIriFromResponse(place: String) {
-  var arr: any[] = [];
-  getBagIdIri(place).then((data) => arr.push(data[0]));
-  console.log(arr);
-  return arr;
+  return getBagIdIri(place).then((data: { woonplaatsIRI: string }[]) => {
+    if (data.length == 0) {
+      throw new Error("No Results found for " + place);
+    }
+    return data[0].woonplaatsIRI;
+  });
 }

@@ -30,13 +30,11 @@ import { wizardConfig } from "config";
 import { cleanCSVValue, getBasePredicateIri } from "utils/helpers";
 import { datatypes } from "mappings/datatypesset";
 import { getBagIdIriFromResponse } from "config/bagLinkResponse";
-import { values } from "lodash-es";
 
 interface Props {}
 const TableHeaders: React.FC<Props> = ({}) => {
   const transformationConfig = useRecoilValue(transformationConfigState);
   const [selectedHeader, setSelectedHeader] = React.useState<number | undefined>();
-  const parsedCsv = useRecoilValue(matrixState);
   const prefixes = useRecoilValue(prefixState);
 
   return (
@@ -100,10 +98,10 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
   const [columnDatatypeIri, setColumnDataTypeIri] = React.useState(selectedColumn?.datatypeIri || "");
   const [applyIriTransformation, setApplyIriTransformation] = React.useState(selectedColumn?.iriPrefix !== undefined);
   const [applyBagLinkTransformation, setApplyBagLinkTransformation] = React.useState(
-    selectedColumn?.bagLinkIri !== undefined
+    selectedColumn?.selectedTransformation
   );
   const [iriPrefix, setIriPrefix] = React.useState(selectedColumn?.iriPrefix ?? wizardConfig.defaultBaseIri);
-  const [bagID, setBagID] = React.useState(selectedColumn?.bagLinkIri || "");
+  const [bagID, setBagID] = React.useState<String[]>([]);
   const parsedCsv = useRecoilValue(matrixState);
   const [datatypeState, setDatatypeState] = React.useState<{ id: string | number; datatype: string }>({
     id: "",
@@ -145,12 +143,13 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
     });
     setErrormessage("");
     if (datatypeState.datatype == "") {
+      setApplyBagLinkTransformation(undefined);
       if (event.target.value == "ToIri") {
         setApplyIriTransformation(true);
-        setApplyBagLinkTransformation(false);
+        setApplyBagLinkTransformation(undefined);
       }
       if (event.target.value == "LinkToBag") {
-        setApplyBagLinkTransformation(true);
+        setApplyBagLinkTransformation("linkToBag");
         setApplyIriTransformation(false);
       }
     } else {
@@ -176,7 +175,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
     getAutocompleteSuggestions();
   }, [selectedColumn, propertyIri]);
 
-  const MyFunction = (matrix: any, selectedHeader: any) => {
+  const getMatrixValuesFromHeaderColumn = (matrix: any, selectedHeader: any) => {
     var arr = [];
     var valuesArr = [];
     //Save full matrix into new array
@@ -200,15 +199,16 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
       const processedDatatypeIri = columnDatatypeIri.length > 0 ? columnDatatypeIri : undefined;
       const processedPropertyIri = propertyIri.length > 0 ? propertyIri : undefined;
       const processedIriPrefix = applyIriTransformation ? iriPrefix : undefined;
-      const processedBagLinkIri = applyBagLinkTransformation ? iriPrefix : undefined;
+      const processedApplyBagLinkTransformation = applyBagLinkTransformation;
 
       columnConfiguration[selectedHeader] = {
         columnName: columnConfiguration[selectedHeader].columnName,
         propertyIri: processedPropertyIri,
         iriPrefix: processedIriPrefix,
         datatypeIri: processedDatatypeIri,
-        bagLinkIri: processedBagLinkIri,
+        selectedTransformation: processedApplyBagLinkTransformation as any,
       };
+
       return {
         ...state,
         columnConfiguration: columnConfiguration,
@@ -247,7 +247,6 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
                         <option value={datatype.value}>{datatype.label}</option>
                       ))}
                     </NativeSelect>
-                    {console.log(columnDatatypeIri)}
                   </FormControl>
                 </HintWrapper>
               </div>
@@ -345,15 +344,10 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
                       <option value="ToIri">Value to IRI</option>
                       <option value="LinkToBag">Link to BAG</option>
                     </NativeSelect>
-                    {console.log(applyIriTransformation)}
                   </FormControl>
                 </HintWrapper>
               </div>
               <div className={styles.columnConfigSection}>
-                {applyBagLinkTransformation &&
-                  MyFunction(parsedCsv, selectedHeader).map((value, id) => {
-                    getBagIdIriFromResponse(value);
-                  })}
                 {applyIriTransformation && (
                   <div className={styles.indent}>
                     <HintWrapper hint="This prefix will be prepended to all values in this column.">
