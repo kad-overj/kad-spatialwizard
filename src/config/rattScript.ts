@@ -4,6 +4,8 @@ import { Util, NamedNode, Literal, DataFactory } from "n3";
 import toNtriplesString from "utils/ratt/middlewares/toNtriplesString";
 import { ApplyTransformation } from "Definitions";
 import { cleanCSVValue, getBaseIdentifierIri, getBasePredicateIri } from "utils/helpers";
+import { colors } from "@material-ui/core";
+import { getBagIdIriFromResponse } from "./bagLinkResponse";
 
 /**
  * Different from the other transformation script, as it is also used in the wizard to transform the data. See `/src/utils/ratt/getTransformation.ts` to get the transformation script itself
@@ -31,21 +33,36 @@ const applyTransformation: ApplyTransformation = async (opts) => {
       opts.config.key !== undefined &&
       opts.config.key >= 0 &&
       opts.config.columnConfiguration[opts.config.key].columnName;
-    app.use((ctx, next) => {
+    app.use(async (ctx, next) => {
       const subject = baseInstanceIri(!!keyColumn ? cleanCSVValue(ctx.record[keyColumn].value) : "" + rowCount);
-
+      /*
+                  getMatrixValuesFromHeaderColumn(parsedCsv, selectedHeader).map((value, id) => {
+                          getBagIdIriFromResponse(value);
+                        })
+      */
       for (const col in ctx.record) {
         if (col === keyColumn) continue;
         if (ctx.record[col] && ctx.record[col].value.length > 0) {
           const colConf = getColumnConfig(col);
           if (!colConf) continue;
           const predicate = colConf.propertyIri ? new NamedNode(colConf.propertyIri) : baseDefIri(cleanCSVValue(col));
-          const object =
-            colConf.iriPrefix !== undefined
-              ? new NamedNode(`${colConf.iriPrefix}${cleanCSVValue(ctx.record[col].value)}`)
-              : colConf.datatypeIri !== undefined
-              ? DataFactory.literal(cleanCSVValue(ctx.record[col].value), DataFactory.namedNode(colConf.datatypeIri))
-              : ctx.record[col];
+          let object;
+          if (colConf.iriPrefix !== undefined) {
+            object = new NamedNode(`${colConf.iriPrefix}${cleanCSVValue(ctx.record[col].value)}`);
+          } else if (colConf.datatypeIri !== undefined) {
+            object = DataFactory.literal(ctx.record[col].value, DataFactory.namedNode(colConf.datatypeIri));
+          } else if (colConf.selectedTransformation === "linkToBag") {
+            try {
+              object = DataFactory.namedNode(await getBagIdIriFromResponse(ctx.record[col].value));
+            } catch {
+              continue;
+            }
+          } else {
+            object = ctx.record[col];
+          }
+
+          //Als colconfig.transformatie is LinkToBag dan voor de fucntie uit voor de response
+          //Als er een response is dan uitvoeren anders skippen of loggen.
           ctx.store.addQuad(subject, predicate, object);
         }
       }
