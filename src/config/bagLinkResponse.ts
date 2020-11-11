@@ -1,10 +1,4 @@
-import { values } from "lodash-es";
-
 const BAG_LOCATION = "https://api.labs.kadaster.nl/queries/jorritovereem/WoonplaatsIriVanafLabel/run?woonplaats=";
-
-interface Results {
-  resultString?: string;
-}
 
 /**
  * Gets autocomplete results

@@ -12,15 +12,13 @@ import {
   Button,
   ButtonBase,
   TextField,
-  Checkbox,
-  FormControlLabel,
   NativeSelect,
   InputLabel,
   FormControl,
 } from "@material-ui/core";
 import * as styles from "./style.scss";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { transformationConfigState, prefixState, matrixState } from "state";
+import { transformationConfigState, prefixState } from "state";
 import { Autocomplete } from "@material-ui/lab";
 import { getPrefixed, getPrefixInfoFromPrefixedValue } from "@triply/utils/lib/prefixUtils";
 import getClassName from "classnames";
@@ -29,7 +27,6 @@ import { AutocompleteSuggestion } from "Definitions";
 import { wizardConfig } from "config";
 import { cleanCSVValue, getBasePredicateIri } from "utils/helpers";
 import { datatypes } from "mappings/datatypesset";
-import { getBagIdIriFromResponse } from "config/bagLinkResponse";
 
 interface Props {}
 const TableHeaders: React.FC<Props> = ({}) => {
@@ -101,8 +98,6 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
     selectedColumn?.selectedTransformation
   );
   const [iriPrefix, setIriPrefix] = React.useState(selectedColumn?.iriPrefix ?? wizardConfig.defaultBaseIri);
-  const [bagID, setBagID] = React.useState<String[]>([]);
-  const parsedCsv = useRecoilValue(matrixState);
   const [datatypeState, setDatatypeState] = React.useState<{ id: string | number; datatype: string }>({
     id: "",
     datatype: "",
@@ -174,22 +169,6 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
     };
     getAutocompleteSuggestions();
   }, [selectedColumn, propertyIri]);
-
-  const getMatrixValuesFromHeaderColumn = (matrix: any, selectedHeader: any) => {
-    var arr = [];
-    var valuesArr = [];
-    //Save full matrix into new array
-    for (let index = 1; index < matrix.length; index++) {
-      arr.push(matrix[index]);
-    }
-
-    //Get all values in array from the selectedColumHeader
-    for (let index = 0; index < arr.length; index++) {
-      valuesArr.push(arr[index][selectedHeader]);
-    }
-
-    return valuesArr;
-  };
 
   const confirmIri = () => {
     setTransformationConfig((state) => {

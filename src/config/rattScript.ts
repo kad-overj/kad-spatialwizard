@@ -1,10 +1,9 @@
 import Ratt from "@triply/ratt";
 import fromArray from "@triply/ratt/lib/middlewares/reading/fromArray";
-import { Util, NamedNode, Literal, DataFactory } from "n3";
+import { Util, NamedNode, DataFactory } from "n3";
 import toNtriplesString from "utils/ratt/middlewares/toNtriplesString";
 import { ApplyTransformation } from "Definitions";
 import { cleanCSVValue, getBaseIdentifierIri, getBasePredicateIri } from "utils/helpers";
-import { colors } from "@material-ui/core";
 import { getBagIdIriFromResponse } from "./bagLinkResponse";
 
 /**
@@ -35,11 +34,7 @@ const applyTransformation: ApplyTransformation = async (opts) => {
       opts.config.columnConfiguration[opts.config.key].columnName;
     app.use(async (ctx, next) => {
       const subject = baseInstanceIri(!!keyColumn ? cleanCSVValue(ctx.record[keyColumn].value) : "" + rowCount);
-      /*
-                  getMatrixValuesFromHeaderColumn(parsedCsv, selectedHeader).map((value, id) => {
-                          getBagIdIriFromResponse(value);
-                        })
-      */
+
       for (const col in ctx.record) {
         if (col === keyColumn) continue;
         if (ctx.record[col] && ctx.record[col].value.length > 0) {
