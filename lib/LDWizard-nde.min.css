@@ -76,6 +76,18 @@ button.style--cellButton--1uOFtKlL:hover {
 .style--keyColumnWrapper--3xSfyIRx .style--keyColumnInfo--BOWFynp4 {
   margin-left: 1rem;
 }
+div.style--datatypeSelector--3bz36gjB {
+  margin-bottom: 10px;
+  min-width: 150px;
+}
+p.style--error--3dZdMJt8 {
+  color: red;
+  font-size: 10px;
+  font-weight: 700;
+}
+div.style--textField--2EneL8pC {
+  margin-bottom: 10px;
+}
 .style--hintField--3UZy0QOb {
   width: 100%;
   display: flex;
