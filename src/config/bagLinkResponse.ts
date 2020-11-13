@@ -1,12 +1,6 @@
 const BAG_LOCATION = "https://api.labs.kadaster.nl/queries/jorritovereem/WoonplaatsIriVanafLabel/run?woonplaats=";
-
-/**
- * Gets autocomplete results
- * @param searchTerm The term to search for
- * @param type Which type of autocompletions you want ("class" || "property")
- * @param [location] location of the autocomplete ElasticSearch endpoint
- * @returns autocomplete results
- */
+const BRT_LOCATION_USING_GEOPOINT =
+  "https://api.labs.kadaster.nl/queries/kadaster-dev/Find-a-Dutch-place-for-a-given-point/run?point=";
 
 async function getBagIdIri(place: String) {
   try {
@@ -29,5 +23,29 @@ export function getBagIdIriFromResponse(place: String) {
       throw new Error("No Results found for " + place);
     }
     return data[0].woonplaatsIRI;
+  });
+}
+
+async function getBrtLocationFromGeoPoint(geopoint: String) {
+  try {
+    const response = await fetch(BRT_LOCATION_USING_GEOPOINT + geopoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "applciation/json",
+      },
+    });
+
+    return response.json();
+  } catch (err) {
+    throw err;
+  }
+}
+
+export function getBrtLocationIriFromResponse(geopoint: string) {
+  return getBrtLocationFromGeoPoint(geopoint).then((data: { place: string }[]) => {
+    if (data.length == 0) {
+      throw new Error("No results found for " + geopoint);
+    }
+    return data[0].place;
   });
 }

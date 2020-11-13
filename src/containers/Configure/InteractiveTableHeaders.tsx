@@ -147,6 +147,10 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
         setApplyBagLinkTransformation("linkToBag");
         setApplyIriTransformation(false);
       }
+      if (event.target.value == "geoPoint") {
+        setApplyBagLinkTransformation("geoPoint");
+        setApplyIriTransformation(false);
+      }
     } else {
       setErrormessage("There is already datatype selected");
     }
@@ -322,6 +326,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
                       <option value=""></option>
                       <option value="ToIri">Value to IRI</option>
                       <option value="LinkToBag">Link to BAG</option>
+                      <option value="geoPoint">LInk Geopoint</option>
                     </NativeSelect>
                   </FormControl>
                 </HintWrapper>
