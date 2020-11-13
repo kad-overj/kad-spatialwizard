@@ -4,7 +4,7 @@ import { Util, NamedNode, DataFactory } from "n3";
 import toNtriplesString from "utils/ratt/middlewares/toNtriplesString";
 import { ApplyTransformation } from "Definitions";
 import { cleanCSVValue, getBaseIdentifierIri, getBasePredicateIri } from "utils/helpers";
-import { getBagIdIriFromResponse } from "./bagLinkResponse";
+import { getBagIdIriFromResponse, getBrtLocationIriFromResponse } from "./bagLinkResponse";
 
 /**
  * Different from the other transformation script, as it is also used in the wizard to transform the data. See `/src/utils/ratt/getTransformation.ts` to get the transformation script itself
@@ -49,6 +49,13 @@ const applyTransformation: ApplyTransformation = async (opts) => {
           } else if (colConf.selectedTransformation === "linkToBag") {
             try {
               object = DataFactory.namedNode(await getBagIdIriFromResponse(ctx.record[col].value));
+            } catch {
+              continue;
+            }
+          } else if (colConf.selectedTransformation === "geoPoint") {
+            try {
+              object = DataFactory.namedNode(await getBrtLocationIriFromResponse(ctx.record[col].value));
+              console.log(object);
             } catch {
               continue;
             }
