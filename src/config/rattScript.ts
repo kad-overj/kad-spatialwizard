@@ -4,7 +4,7 @@ import { Util, NamedNode, DataFactory } from "n3";
 import toNtriplesString from "utils/ratt/middlewares/toNtriplesString";
 import { ApplyTransformation } from "Definitions";
 import { cleanCSVValue, getBaseIdentifierIri, getBasePredicateIri } from "utils/helpers";
-import { getBagIdIriFromResponse, getBrtLocationIriFromResponse } from "./bagLinkResponse";
+import { getBagIdIriFromResponse, getBrtLocationIriFromResponse } from "./api_response";
 
 /**
  * Different from the other transformation script, as it is also used in the wizard to transform the data. See `/src/utils/ratt/getTransformation.ts` to get the transformation script itself

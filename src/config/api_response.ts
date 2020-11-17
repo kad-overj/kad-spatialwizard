@@ -1,6 +1,7 @@
 const BAG_LOCATION = "https://api.labs.kadaster.nl/queries/jorritovereem/WoonplaatsIriVanafLabel/run?woonplaats=";
 const BRT_LOCATION_USING_GEOPOINT =
   "https://api.labs.kadaster.nl/queries/kadaster-dev/Find-a-Dutch-place-for-a-given-point/run?point=";
+const LOCATION_SERVER_ENDPOINT = "http://geodata.nationaalgeoregister.nl/locatieserver/v3/suggest?bq=type:adress&q=";
 
 async function getBagIdIri(place: String) {
   try {
@@ -47,5 +48,29 @@ export function getBrtLocationIriFromResponse(geopoint: string) {
       throw new Error("No results found for " + geopoint);
     }
     return data[0].place;
+  });
+}
+
+async function getAdressIdFromLocationServer(adress: String) {
+  try {
+    const response = await fetch(LOCATION_SERVER_ENDPOINT + adress, {
+      method: "GET",
+      headers: {
+        "Content-Type": "applciation/json",
+      },
+    });
+
+    return response.json();
+  } catch (err) {
+    throw err;
+  }
+}
+
+export function getAdressId(adress: string) {
+  return getAdressIdFromLocationServer(adress).then((data: { docs: string }[]) => {
+    if (data.length == 0) {
+      throw new Error("No results found for " + adress);
+    }
+    return data[0].docs;
   });
 }
