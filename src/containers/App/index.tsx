@@ -1,7 +1,7 @@
 import React from "react";
 import Wizard from "containers/Wizard";
 import { AppBar, Toolbar, Typography, Container, Paper } from "@material-ui/core";
-import KDWImg from "./kdwizlogo.png";
+import KDWImg from "./logo.png";
 import * as styles from "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -29,13 +29,10 @@ const App: React.FC<Props> = () => {
       <Paper component="footer" className={styles.footer}>
         {/* Is reversed in CSS */}
         <nav className={styles.footerNav}>
-          <a href="https://github.com/netwerk-digitaal-erfgoed/LDWizard">
-            <FontAwesomeIcon icon="book" /> Documentation
-          </a>
-          <a href="https://data.netwerkdigitaalerfgoed.nl/">
+          <a href="https://data.labs.kadaster.nl">
             <FontAwesomeIcon icon="database" /> Dataplatform
           </a>
-          <a href="https://github.com/netwerk-digitaal-erfgoed/LDWizard">
+          <a href="https://github.com/kad-overj/kad-spatialwizard/">
             <FontAwesomeIcon icon={["fab", "github"]} /> Github
           </a>
         </nav>
