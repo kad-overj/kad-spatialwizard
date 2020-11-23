@@ -1,7 +1,7 @@
 import React from "react";
 import Wizard from "containers/Wizard";
 import { AppBar, Toolbar, Typography, Container, Paper } from "@material-ui/core";
-import KDWImg from "./kdwizlogo.png";
+import KDWImg from "./logo.png";
 import * as styles from "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
