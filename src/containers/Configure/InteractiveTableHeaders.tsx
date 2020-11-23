@@ -108,7 +108,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
     valueconfig: "",
   });
 
-  const handleDatatypeChange = (event: React.ChangeEvent<{ name?: string; value: string }>) => {
+  const handleDatatypeChange = async (event: React.ChangeEvent<{ name?: string; value: string }>) => {
     const name = event.target.name as keyof typeof datatypeState;
     setDatatypeState({
       ...datatypeState,

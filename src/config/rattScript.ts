@@ -55,7 +55,6 @@ const applyTransformation: ApplyTransformation = async (opts) => {
           } else if (colConf.selectedTransformation === "geoPoint") {
             try {
               object = DataFactory.namedNode(await getBrtLocationIriFromResponse(ctx.record[col].value));
-              console.log(object);
             } catch {
               continue;
             }
