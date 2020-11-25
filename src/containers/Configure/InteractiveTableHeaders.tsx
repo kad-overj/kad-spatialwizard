@@ -15,10 +15,12 @@ import {
   NativeSelect,
   InputLabel,
   FormControl,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import * as styles from "./style.scss";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { transformationConfigState, prefixState } from "state";
+import { transformationConfigState, prefixState, matrixState } from "state";
 import { Autocomplete } from "@material-ui/lab";
 import { getPrefixed, getPrefixInfoFromPrefixedValue } from "@triply/utils/lib/prefixUtils";
 import getClassName from "classnames";
@@ -29,6 +31,7 @@ import { cleanCSVValue, getBasePredicateIri } from "utils/helpers";
 import { datatypes } from "mappings/datatypesset";
 
 interface Props {}
+
 const TableHeaders: React.FC<Props> = ({}) => {
   const transformationConfig = useRecoilValue(transformationConfigState);
   const [selectedHeader, setSelectedHeader] = React.useState<number | undefined>();
@@ -83,9 +86,11 @@ interface AutoCompleteProps {
   selectedHeader: number | undefined;
   onClose: () => void;
 }
+
 const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClose }) => {
   const [transformationConfig, setTransformationConfig] = useRecoilState(transformationConfigState);
   const prefixes = useRecoilValue(prefixState);
+  const csvMatrix = useRecoilState(matrixState);
   const [errorMessage, setErrormessage] = React.useState<string | undefined>();
   const [autocompleteError, setAutocompleteError] = React.useState<string | undefined>();
   const [autocompleteSuggestions, setAutocompleteSuggestions] = React.useState<AutocompleteSuggestion[]>([]);
@@ -97,7 +102,30 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
   const [applyBagLinkTransformation, setApplyBagLinkTransformation] = React.useState(
     selectedColumn?.selectedTransformation
   );
+  const [linkedColumnValues, setLinkedColumnValues] = React.useState(selectedColumn?.linkedColumnValues || []);
   const [iriPrefix, setIriPrefix] = React.useState(selectedColumn?.iriPrefix ?? wizardConfig.defaultBaseIri);
+
+  function getValuesFromLinkedColumn(selectedHeader: number) {
+    var matrixArr: any[] = [];
+    var valuesArr: any[] = [];
+    for (var i = 0; i < csvMatrix.length; i++) {
+      matrixArr.push(csvMatrix[i]);
+    }
+    console.log(matrixArr[0]);
+
+    for (var i = 1; i < matrixArr[0].length; i++) {
+      valuesArr.push(matrixArr[0][i][selectedHeader]);
+    }
+
+    return valuesArr;
+  }
+  const [placeColumnState, setPlaceColumnState] = React.useState<{ id: string | number; placeColumn: string | number }>(
+    {
+      id: "",
+      placeColumn: "",
+    }
+  );
+
   const [datatypeState, setDatatypeState] = React.useState<{ id: string | number; datatype: string }>({
     id: "",
     datatype: "",
@@ -107,6 +135,16 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
     id: "",
     valueconfig: "",
   });
+
+  const handlePlaceColumnChange = (event: React.ChangeEvent<{ name?: string; value: string }>) => {
+    const name = event.target.name as keyof typeof placeColumnState;
+    setPlaceColumnState({
+      ...placeColumnState,
+      [name]: event.target.value,
+    });
+    setLinkedColumnValues(getValuesFromLinkedColumn(+event.target.value));
+    console.log(event.target.value);
+  };
 
   const handleDatatypeChange = async (event: React.ChangeEvent<{ name?: string; value: string }>) => {
     const name = event.target.name as keyof typeof datatypeState;
@@ -151,6 +189,10 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
         setApplyBagLinkTransformation("geoPoint");
         setApplyIriTransformation(false);
       }
+      if (event.target.value == "LinkToLocationServer") {
+        setApplyBagLinkTransformation("LinkToLocationServer");
+        setApplyIriTransformation(false);
+      }
     } else {
       setErrormessage("There is already datatype selected");
     }
@@ -182,6 +224,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
       const processedDatatypeIri = columnDatatypeIri.length > 0 ? columnDatatypeIri : undefined;
       const processedPropertyIri = propertyIri.length > 0 ? propertyIri : undefined;
       const processedIriPrefix = applyIriTransformation ? iriPrefix : undefined;
+      const processedLinkedColumnValues = linkedColumnValues;
       const processedApplyBagLinkTransformation = applyBagLinkTransformation;
 
       columnConfiguration[selectedHeader] = {
@@ -189,9 +232,11 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
         propertyIri: processedPropertyIri,
         iriPrefix: processedIriPrefix,
         datatypeIri: processedDatatypeIri,
+        linkedColumnValues: processedLinkedColumnValues as any,
         selectedTransformation: processedApplyBagLinkTransformation as any,
       };
 
+      console.log(columnConfiguration);
       return {
         ...state,
         columnConfiguration: columnConfiguration,
@@ -325,8 +370,9 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
                     >
                       <option value=""></option>
                       <option value="ToIri">Value to IRI</option>
-                      <option value="LinkToBag">Link to BAG</option>
-                      <option value="geoPoint">LInk Geopoint</option>
+                      <option value="LinkToBag">Link place to BAG</option>
+                      <option value="geoPoint">Link Geopoint</option>
+                      <option value="LinkToLocationServer">Link adress to BAG</option>
                     </NativeSelect>
                   </FormControl>
                 </HintWrapper>
@@ -344,6 +390,28 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
                         InputLabelProps={{ shrink: true }}
                         fullWidth
                       />
+                    </HintWrapper>
+                  </div>
+                )}
+                {applyBagLinkTransformation == "LinkToLocationServer" && (
+                  <div className={styles.indent}>
+                    <HintWrapper hint="This will append the value to the column values.">
+                      <FormControl className={styles.datatypeSelector}>
+                        <InputLabel htmlFor="placeColumn-native-helper">Select Column </InputLabel>
+                        <NativeSelect
+                          value={placeColumnState.placeColumn}
+                          onChange={handlePlaceColumnChange}
+                          error={!!errorMessage}
+                          inputProps={{
+                            name: "placeColumn",
+                            id: "placeColumn-native-helper",
+                          }}
+                        >
+                          {transformationConfig.columnConfiguration.map((config, idx) => (
+                            <option value={idx}>{config.columnName}</option>
+                          ))}
+                        </NativeSelect>
+                      </FormControl>
                     </HintWrapper>
                   </div>
                 )}

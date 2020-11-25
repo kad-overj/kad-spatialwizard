@@ -5,6 +5,7 @@ import toNtriplesString from "utils/ratt/middlewares/toNtriplesString";
 import { ApplyTransformation } from "Definitions";
 import { cleanCSVValue, getBaseIdentifierIri, getBasePredicateIri } from "utils/helpers";
 import { getBagIdIriFromResponse, getBrtLocationIriFromResponse } from "./api_response";
+import { getAdressId } from "./api_response_adress";
 
 /**
  * Different from the other transformation script, as it is also used in the wizard to transform the data. See `/src/utils/ratt/getTransformation.ts` to get the transformation script itself
@@ -15,10 +16,14 @@ import { getBagIdIriFromResponse, getBrtLocationIriFromResponse } from "./api_re
  * Applies the transformation using RATT
  * @param opts
  */
+
+/*Get place names */
+
 const applyTransformation: ApplyTransformation = async (opts) => {
   if (opts.type === "ratt" && Array.isArray(opts.source)) {
     const baseDefIri = Util.prefix(getBasePredicateIri(opts.config.baseIri.toString()));
     const baseInstanceIri = Util.prefix(getBaseIdentifierIri(opts.config.baseIri.toString()));
+
     const app = new Ratt();
 
     const getColumnConfig = (colName: string) =>
@@ -49,12 +54,22 @@ const applyTransformation: ApplyTransformation = async (opts) => {
           } else if (colConf.selectedTransformation === "linkToBag") {
             try {
               object = DataFactory.namedNode(await getBagIdIriFromResponse(ctx.record[col].value));
+              console.log(rowCount);
             } catch {
               continue;
             }
           } else if (colConf.selectedTransformation === "geoPoint") {
             try {
               object = DataFactory.namedNode(await getBrtLocationIriFromResponse(ctx.record[col].value));
+            } catch {
+              continue;
+            }
+          } else if (colConf.selectedTransformation === "LinkToLocationServer") {
+            try {
+              object = DataFactory.namedNode(
+                await getAdressId(ctx.record[col].value, colConf.linkedColumnValues[rowCount])
+              );
+              console.log(object);
             } catch {
               continue;
             }
