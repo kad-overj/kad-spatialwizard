@@ -69,7 +69,6 @@ const applyTransformation: ApplyTransformation = async (opts) => {
               object = DataFactory.namedNode(
                 await getAdressId(ctx.record[col].value, colConf.linkedColumnValues[rowCount])
               );
-              console.log(object);
             } catch {
               continue;
             }
