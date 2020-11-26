@@ -13,7 +13,8 @@ export type ColumnConfiguration = {
   propertyIri?: string;
   iriPrefix?: string;
   datatypeIri?: string;
-  selectedTransformation?: "linkToBag" | "geoPoint";
+  linkedColumnValues?: string[];
+  selectedTransformation?: "linkToBag" | "geoPoint" | "LinkToLocationServer";
 };
 
 export interface TransformationConfiguration {
