@@ -1,5 +1,5 @@
 const LOCATION_SERVER_ENDPOINT = "https://geodata.nationaalgeoregister.nl/locatieserver/v3/free?fq=bron:BAG&q=";
-const BAG_LINK_DOC = "https://bag.basisregistraties.overheid.nl/bag/doc/nummeraanduiding/";
+//const BAG_LINK_DOC = "https://bag.basisregistraties.overheid.nl/bag/doc/nummeraanduiding/";
 
 interface ResponseObject {
   response: Response;
@@ -60,9 +60,7 @@ export function getAdressId(adress: String, place: String) {
       throw new Error("No results found for " + adress + " in " + place);
     } else {
       if (resp.response.docs[0].openbareruimte_id == undefined) {
-        alert(
-          "openbare ruimte id not found for " + adress + " in " + place + "\n Mogelijk is het een niet bestaand adres "
-        );
+        alert(adress + " is not found in " + place + "\nMogelijk is het een niet bestaand adres");
         throw new Error("No results found for " + adress + " in " + place);
       } else {
         return resp.response.docs[0].rdf_seealso;
