@@ -47,10 +47,8 @@ async function getBagIdIri(place: Promise<String> | String) {
 }
 
 export async function getBagIdIriFromResponse(place: String) {
-  console.log(await getWoonplaats(place));
   return getBagIdIri(await getWoonplaats(place)).then((data: { woonplaatsIRI: string }[]) => {
     if (data.length == 0) {
-      alert("No Results found for " + place);
       throw new Error("No Results found for " + place);
     }
     return data[0].woonplaatsIRI;
@@ -89,7 +87,6 @@ async function getWoonplaatsFromLocationServer(place: String) {
         "Content-Type": "applciation/json",
       },
     });
-
     return response.json();
   } catch (err) {
     throw err;
@@ -99,6 +96,7 @@ async function getWoonplaatsFromLocationServer(place: String) {
 export function getWoonplaats(place: String) {
   return getWoonplaatsFromLocationServer(place).then((resp: ResponseObject) => {
     if (resp.response.numFound == 0) {
+      alert("No results found for " + place);
       throw new Error("No results found for " + place);
     } else {
       return resp.response.docs[0].woonplaatsnaam;
