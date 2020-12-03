@@ -60,7 +60,7 @@ export function getAdressId(adress: String, place: String) {
       throw new Error("No results found for " + adress + " in " + place);
     } else {
       if (resp.response.docs[0].openbareruimte_id == undefined) {
-        alert(adress + " is not found in " + place + "\nMogelijk is het een niet bestaand adres");
+        alert(adress + " is not found in " + place);
         throw new Error("No results found for " + adress + " in " + place);
       } else {
         return resp.response.docs[0].rdf_seealso;

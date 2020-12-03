@@ -92,6 +92,7 @@ const Publish: React.FC<Props> = ({}) => {
   };
   return (
     <>
+      <Alert severity="success">Configuration succesfull completed</Alert>
       <Container className={styles.publishOptions}>
         {wizardConfig.publishOrder.map((publishOption) => publishOptions[publishOption])}
         {Object.entries(publishOptions).map(([key, value]) => {

@@ -92,6 +92,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
   const prefixes = useRecoilValue(prefixState);
   const csvMatrix = useRecoilState(matrixState);
   const [errorMessage, setErrormessage] = React.useState<string | undefined>();
+  const [infoMessage, setInfomessage] = React.useState<string | undefined>();
   const [autocompleteError, setAutocompleteError] = React.useState<string | undefined>();
   const [autocompleteSuggestions, setAutocompleteSuggestions] = React.useState<AutocompleteSuggestion[]>([]);
   const selectedColumn =
@@ -175,6 +176,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
       [name]: event.target.value,
     });
     setErrormessage("");
+    setInfomessage("");
     if (datatypeState.datatype == "") {
       setApplyBagLinkTransformation(undefined);
       if (event.target.value == "ToIri") {
@@ -183,14 +185,17 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
       }
       if (event.target.value == "LinkToBag") {
         setApplyBagLinkTransformation("linkToBag");
+        setInfomessage("This function can only be used for a city");
         setApplyIriTransformation(false);
       }
       if (event.target.value == "geoPoint") {
         setApplyBagLinkTransformation("geoPoint");
+        setInfomessage("This function can only be used with coordinates");
         setApplyIriTransformation(false);
       }
       if (event.target.value == "LinkToLocationServer") {
         setApplyBagLinkTransformation("LinkToLocationServer");
+        setInfomessage("This function can only be used for adresses. Also be sure to make connection with a city");
         setApplyIriTransformation(false);
       }
     } else {
@@ -370,10 +375,11 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
                     >
                       <option value=""></option>
                       <option value="ToIri">Value to IRI</option>
-                      <option value="LinkToBag">Link place to BAG</option>
+                      <option value="LinkToBag">Link Woonplaats, Sterfteplaats or Geboorteplaats to BAG</option>
                       <option value="geoPoint">Link Geopoint</option>
-                      <option value="LinkToLocationServer">Link adress to BAG</option>
+                      <option value="LinkToLocationServer">Link Adres with BAG </option>
                     </NativeSelect>
+                    <p className={styles.infoMessage}>{infoMessage}</p>
                   </FormControl>
                 </HintWrapper>
               </div>
