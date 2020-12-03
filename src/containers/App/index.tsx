@@ -15,7 +15,7 @@ const App: React.FC<Props> = () => {
       <AppBar position="static" color="default">
         <Toolbar>
           <img src={KDWImg} className={styles.image} />
-          <Typography className={styles.title}>Geo-data Wizard</Typography>
+          <Typography className={styles.title}>GeoData Wizard</Typography>
           <div className={styles.homeContainer}>
             <a className={styles.home} href="https://labs.kadaster.nl/demonstrators/spatialwizard/index.html">
               <FontAwesomeIcon icon="home" />
