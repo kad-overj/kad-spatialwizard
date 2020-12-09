@@ -8,6 +8,7 @@ import Publish, { Step as ExportStep } from "containers/Publish";
 import Steps from "./Steps";
 import ErrorBoundary from "components/ErrorBoundary";
 import { Skeleton } from "@material-ui/lab";
+import Wizardhelp from "containers/Wizardhelp";
 interface Props {}
 
 const Wizard: React.FC<Props> = () => {
@@ -16,6 +17,9 @@ const Wizard: React.FC<Props> = () => {
       <Steps />
       <ErrorBoundary>
         <Switch>
+          <Route exact path="/help">
+            <Wizardhelp />
+          </Route>
           <Route exact path={`/${UploadStep}`}>
             <Upload />
           </Route>

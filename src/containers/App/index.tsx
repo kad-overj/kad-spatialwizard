@@ -39,6 +39,7 @@ const App: React.FC<Props> = () => {
           <a href="https://labs.kadaster.nl">
             <img src={KDLogo} className={styles.linkImage} /> Kadaster Labs
           </a>
+          <a href="/help">GeoDataWizard help</a>
         </nav>
       </Paper>
     </div>
