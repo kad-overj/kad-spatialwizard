@@ -93,7 +93,9 @@ const Upload: React.FC<Props> = ({}) => {
         </label>
         <p>
           Or download a example file{" "}
-          <a href="https://labs.kadaster.nl/demonstrators/spatialwizard/Testset_spatialwizard_csv_correctie">here</a>
+          <a href="https://labs.kadaster.nl/demonstrators/spatialwizard/Testset_spatialwizard_csv_correctie.csv">
+            here
+          </a>
         </p>
       </div>
       <Box>
