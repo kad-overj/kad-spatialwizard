@@ -3,6 +3,7 @@ import Wizard from "containers/Wizard";
 import { AppBar, Toolbar, Typography, Container, Paper } from "@material-ui/core";
 import KDWImg from "./logo.png";
 import KDLogo from "./kadaster_logo.png";
+
 import * as styles from "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -39,7 +40,9 @@ const App: React.FC<Props> = () => {
           <a href="https://labs.kadaster.nl">
             <img src={KDLogo} className={styles.linkImage} /> Kadaster Labs
           </a>
-          <a href="/help">GeoDataWizard help</a>
+          <a href="https://labs.kadaster.nl/demonstrators/spatialwizard/Handleiding_GeoDataWizard.pdf">
+            GeoDataWizard help
+          </a>
         </nav>
       </Paper>
     </div>

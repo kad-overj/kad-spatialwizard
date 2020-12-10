@@ -91,6 +91,10 @@ const Upload: React.FC<Props> = ({}) => {
           </Button>
           {error && <Typography color="error">No file selected</Typography>}
         </label>
+        <p>
+          Or download a example file{" "}
+          <a href="https://labs.kadaster.nl/demonstrators/spatialwizard/Testset_spatialwizard_csv_correctie">here</a>
+        </p>
       </div>
       <Box>
         <Button disabled className={styles.actionButtons}>
