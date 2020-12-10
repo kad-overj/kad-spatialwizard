@@ -1,5 +1,6 @@
 import React from "react";
 import * as styles from "./style.scss";
+import homepageImage from "./instruction_images/homepagina_geodatawizard.png";
 import { Container, Paper, Typography } from "@material-ui/core";
 
 interface Props {}
@@ -61,12 +62,16 @@ const Wizardhelp: React.FC<Props> = () => {
         (afbeelding 2).
       </p>
 
-      <p>Afbeelding 1 - Begin pagina met mogelijkheid tot uploaden van een CSV</p>
+      <div className={styles.imagesblock}>
+        <img src={homepageImage} />
+        <p>Afbeelding 1 - Begin pagina met mogelijkheid tot uploaden van een CSV</p>
+      </div>
 
+      <p>Afbeelding 2 - Uploaden van het csv bestand</p>
       <p>
-        Afbeelding 2 - Uploaden van het csv bestandVervolgens selecteert u het csv bestand van uw dataset en klikt op
-        openen. Het venster verdwijnt en u wordt automatisch doorgestuurd naar de configuratie stap (Stap 2). Als de csv
-        is ingeladen dan verschijnen de eerste 10 regels van uw dataset in een tabel (afbeelding 3)
+        Vervolgens selecteert u het csv bestand van uw dataset en klikt op openen. Het venster verdwijnt en u wordt
+        automatisch doorgestuurd naar de configuratie stap (Stap 2). Als de csv is ingeladen dan verschijnen de eerste
+        10 regels van uw dataset in een tabel (afbeelding 3)
       </p>
 
       <p>Afbeelding 3 - Dataset ingeladen voor configuratie</p>
