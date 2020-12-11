@@ -22,10 +22,10 @@ export const matrixState = atom<Matrix | undefined>({
 export const transformationConfigState = atom<TransformationConfiguration>({
   key: "config",
   default: {
-    baseIri: "http://bag.basisregistraties.overheid.nl/def/bag#",
+    baseIri: "http://data.pldn.nl/SpatialLDWizard/id",
     columnConfiguration: [],
     sourceFileName: "input.csv",
-    resourceClass: "http://bag.basisregistraties.overheid.nl/def/bag#",
+    resourceClass: "http://data.pldn.nl/SpatialLDWizard/def",
     csvProps: {
       delimiter: ",",
     },
