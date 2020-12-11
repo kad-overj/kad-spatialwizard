@@ -92,8 +92,8 @@ const Upload: React.FC<Props> = ({}) => {
           {error && <Typography color="error">No file selected</Typography>}
         </label>
         <p>
-          Or download a example file{" "}
-          <a href="https://labs.kadaster.nl/demonstrators/spatialwizard/Testset_spatialwizard_csv_correctie.csv">
+          or download an example file{" "}
+          <a href="https://labs.kadaster.nl/demonstrators/geodatawizard/Testset_spatialwizard_csv_correctie.csv">
             here
           </a>
         </p>

@@ -16,9 +16,9 @@ const App: React.FC<Props> = () => {
       <AppBar position="static" color="default">
         <Toolbar>
           <img src={KDWImg} className={styles.image} />
-          <Typography className={styles.title}>GeoData Wizard</Typography>
+          <Typography className={styles.title}>GeoDataWizard</Typography>
           <div className={styles.homeContainer}>
-            <a className={styles.home} href="https://labs.kadaster.nl/demonstrators/spatialwizard/index.html">
+            <a className={styles.home} href="https://labs.kadaster.nl/demonstrators/geodatawizard/index.html">
               <FontAwesomeIcon icon="home" />
             </a>
           </div>
@@ -32,7 +32,7 @@ const App: React.FC<Props> = () => {
         {/* Is reversed in CSS */}
         <nav className={styles.footerNav}>
           <a href="https://data.pldn.nl">
-            <FontAwesomeIcon icon="database" /> Dataplatform
+            <FontAwesomeIcon icon="database" /> PLDN Dataplatform
           </a>
           <a href="https://github.com/kadaster/ld-spatialwizard">
             <FontAwesomeIcon icon={["fab", "github"]} /> Github
@@ -40,7 +40,7 @@ const App: React.FC<Props> = () => {
           <a href="https://labs.kadaster.nl">
             <img src={KDLogo} className={styles.linkImage} /> Kadaster Labs
           </a>
-          <a href="https://labs.kadaster.nl/demonstrators/spatialwizard/Handleiding_GeoDataWizard.pdf">
+          <a href="https://labs.kadaster.nl/demonstrators/geodatawizard/Handleiding_GeoDataWizard.pdf">
             GeoDataWizard help
           </a>
         </nav>

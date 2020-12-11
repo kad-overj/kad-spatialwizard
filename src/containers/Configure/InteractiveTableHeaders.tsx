@@ -375,7 +375,7 @@ const ColumnConfigDialog: React.FC<AutoCompleteProps> = ({ selectedHeader, onClo
                     >
                       <option value=""></option>
                       <option value="ToIri">Value to IRI</option>
-                      <option value="LinkToBag">Link Woonplaats, Sterfteplaats or Geboorteplaats to BAG</option>
+                      <option value="LinkToBag">Link Plaats to BAG</option>
                       <option value="geoPoint">Link Geopoint</option>
                       <option value="LinkToLocationServer">Link Adres with BAG </option>
                     </NativeSelect>
