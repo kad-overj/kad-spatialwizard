@@ -34,9 +34,6 @@ const App: React.FC<Props> = () => {
           <a href="https://data.pldn.nl">
             <FontAwesomeIcon icon="database" /> PLDN Dataplatform
           </a>
-          <a href="https://github.com/kadaster/ld-spatialwizard">
-            <FontAwesomeIcon icon={["fab", "github"]} /> Github
-          </a>
           <a href="https://labs.kadaster.nl">
             <img src={KDLogo} className={styles.linkImage} /> Kadaster Labs
           </a>
