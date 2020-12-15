@@ -27,7 +27,7 @@ const Wizard: React.FC<Props> = () => {
           <Route exact path={`/${ExportStep}`}>
             <Publish />
           </Route>
-          <Redirect to={`/${UploadStep}`} />
+          <Redirect to={`./index.html`} />
         </Switch>
       </ErrorBoundary>
     </Paper>

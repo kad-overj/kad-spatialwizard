@@ -22,10 +22,10 @@ export const matrixState = atom<Matrix | undefined>({
 export const transformationConfigState = atom<TransformationConfiguration>({
   key: "config",
   default: {
-    baseIri: "http://data.pldn.nl/GeoDataWizard/id",
+    baseIri: "http://data.pldn.nl/GeoDataWizard/id/",
     columnConfiguration: [],
     sourceFileName: "input.csv",
-    resourceClass: "http://data.pldn.nl/GeoDataWizard/def",
+    resourceClass: "http://data.pldn.nl/GeoDataWizard/def/",
     csvProps: {
       delimiter: ",",
     },
